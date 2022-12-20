@@ -1,0 +1,43 @@
+#app {
+  font-family: "Nunito", sans-serif, monospace;
+}
+
+#dropdown-navbar-profile > button {
+  padding: 0px;
+  border: none;
+  background: none;
+  color: #343a40;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+#dropdown-navbar-profile__BV_toggle_ {
+  padding: 0px;
+  border: none;
+  background: none;
+  font-weight: bold;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.remove-padding-margin {
+  padding: 0px;
+  margin: 0px;
+}
+
+.p-remove-margin-bottom {
+  margin-bottom: 0px;
+}
+
+.swal-modal .swal-text {
+  text-align: center !important;
+}
+
+button.slick-prev:before,
+button.slick-next:before {
+  background-color: grey !important;
+  border-radius: 5px;
+  padding: 5px;
+}
+

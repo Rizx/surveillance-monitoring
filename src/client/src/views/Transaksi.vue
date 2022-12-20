@@ -1,0 +1,114 @@
+<template>
+  <div>
+    <Sidebar />
+    <Header :title="'Transaksi'" />
+    <div style="margin-left: 50px">
+      <b-container fluid>
+        <b-skeleton-table
+          class="mt-3"
+          v-if="!loadingTableList"
+          :rows="totalRows"
+          :columns="3"
+          :table-props="{ bordered: true, striped: true }"
+        ></b-skeleton-table>
+        <TableListTransaksi
+          v-if="loadingTableList"
+          :items="items"
+          :fields="fields"
+          :currentPage="currentPage"
+          :perPage="perPage"
+          :totalRows="totalRows"
+        />
+      </b-container>
+    </div>
+  </div>
+</template>
+
+<script>
+import Swal from "sweetalert2";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import TableListTransaksi from "../components/TableListTransaksi";
+import TransactionService from "../services/TransactionServices";
+
+export default {
+  name: "Transaksi",
+  components: { Sidebar, Header, TableListTransaksi },
+  data() {
+    return {
+      currentPage: 1,
+      perPage: 20,
+      totalRows: 1,
+      items: [],
+      fields: [
+        {
+          key: "aktivitas",
+          label: "AKTIVITAS",
+        },
+        {
+          key: "no_kartu",
+          label: "NOMOR KARTU",
+        },
+        {
+          key: "nama",
+          label: "NAMA",
+        },
+        {
+          key: "nomor_rumah",
+          label: "NOMOR RUMAH",
+        },
+        { key: "gambar", label: "GAMBAR" },
+        { key: "action", label: "ACTION" },
+      ],
+    };
+  },
+
+  mounted() {
+    this.onInit();
+  },
+
+  methods: {
+    async onInit() {
+      await this.checkLogin();
+      await this.getTransactionList();
+    },
+
+    async getTransactionList() {
+      this.loadingTableList = false;
+      TransactionService.getTransactionList(this.baseApi, this.jwtToken)
+        .then((response) => {
+          // console.log(response);
+          this.loadingTableList = true;
+          this.totalRows = response.data.data.length;
+          this.items = response.data.data;
+        })
+        .catch((error) => {
+          // console.log(error);
+          this.loadingTableList = true;
+          let text = error.response.data.error;
+          let statusCode = error.response.status;
+          if (text == "Network Error") {
+            window.location.href = this.baseApi;
+          }
+          if (statusCode == 401) {
+            Swal.fire({
+              icon: "error",
+              title: "Error " + statusCode + " - Unauthorized",
+              text: "Sorry, Your request could not be processed.",
+            });
+          }
+          if (statusCode != 200 && statusCode != 401) {
+            Swal.fire({
+              icon: "error",
+              title: "Error " + statusCode,
+              text: text,
+            });
+          }
+        });
+    },
+  },
+};
+</script>
+
+<style>
+</style>
