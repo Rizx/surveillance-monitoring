@@ -13,6 +13,8 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using API.Settings;
 using API.Repositories;
+using Microsoft.EntityFrameworkCore;
+using API.Shared;
 
 namespace API.Extentions
 {
@@ -127,8 +129,7 @@ namespace API.Extentions
 
         public static void AddJWTAuthentication(this IServiceCollection services)
         {
-            var options = services.GetOptions<JwtSettings>(nameof(JwtSettings));
-            var key = Encoding.ASCII.GetBytes(options.Key);
+            var key = Encoding.ASCII.GetBytes(ApplicationSettings.JwtSetting.Key);
 
             services.AddAuthentication(x =>
             {
@@ -152,12 +153,11 @@ namespace API.Extentions
             });
         }
 
-        // public static IServiceCollection RegisterOracleDb(this IServiceCollection services)
-        // {
-        //     var options = services.GetOptions<ConnectionStrings>(nameof(ConnectionStrings));
-        //     return services.AddDbContext<EntityContext>(opt =>
-        //         opt.UseOracle(options.OracleConnection));
-        // }
+        public static IServiceCollection RegisterEF(this IServiceCollection services)
+        {
+            return services.AddDbContext<EntityContext>(opt =>
+                opt.UseNpgsql(ApplicationSettings.ConnectionStrings.Connection).UseLowerCaseNamingConvention());
+        }
 
         // public static IServiceCollection UseMongoDb(this IServiceCollection services)
         // {
@@ -174,8 +174,18 @@ namespace API.Extentions
 
         public static IServiceCollection RegisterAppSettings(this IServiceCollection services, IConfiguration configuration)
         {
+            ApplicationSettings.Initialize(configuration);
+
+            var connectionSection = configuration.GetSection(nameof(ConnectionStrings));
+            connectionSection.Bind(ApplicationSettings.ConnectionStrings);
             services.Configure<ConnectionStrings>(configuration.GetSection(nameof(ConnectionStrings)));
-            services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
+            // services.AddSingleton(ApplicationSettings.ConnectionStrings);
+
+            var jwtSection = configuration.GetSection(nameof(JwtSetting));
+            jwtSection.Bind(ApplicationSettings.JwtSetting);
+            services.Configure<JwtSetting>(configuration.GetSection(nameof(JwtSetting)));
+            // services.AddSingleton(ApplicationSettings.JwtSetting);
+
             return services;
         }
 
@@ -197,18 +207,6 @@ namespace API.Extentions
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowAnyOrigin()));
-        }
-
-        private static T GetOptions<T>(this IServiceCollection services, string sectionName)
-            where T : new()
-        {
-            using var serviceProvider = services.BuildServiceProvider();
-            var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            var section = configuration.GetSection(sectionName);
-            var options = new T();
-            section.Bind(options);
-
-            return options;
         }
     }
 }

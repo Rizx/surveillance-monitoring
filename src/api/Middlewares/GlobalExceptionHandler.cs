@@ -55,7 +55,7 @@ namespace API.Middlewares
                         break;
                 }
 
-                var responseModel = Result.Fail(errorMessages, statusCode: statusCode, exception: exceptionMessage);
+                var responseModel = Result.Error(errorMessages, statusCode: statusCode, exception: exceptionMessage);
                 string result = JsonSerializer.Serialize(responseModel, new JsonSerializerOptions
                 {
                     DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,

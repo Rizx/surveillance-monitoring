@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using API.Settings;
-using AutogateAPI.Models;
+using API.Models;
 using Dapper;
 using Microsoft.Extensions.Options;
 using Npgsql;
@@ -26,10 +26,10 @@ namespace API.Repositories
                 "SELECT name, videourl FROM cameras ORDER BY ID DESC");
         }
 
-        public async Task<IEnumerable<Cameras>> Gets()
+        public async Task<IEnumerable<Camera>> GetList()
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
-            return await connection.QueryAsync<Cameras>(
+            return await connection.QueryAsync<Camera>(
                 "SELECT * FROM cameras ORDER BY ID DESC");
         }
     }

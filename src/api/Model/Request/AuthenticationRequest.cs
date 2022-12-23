@@ -1,4 +1,4 @@
-namespace AutogateAPI.Models
+namespace API.Models
 {
     public record AuthenticationRequest
     {

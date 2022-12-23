@@ -1,6 +1,6 @@
 namespace API.Settings
 {
-    public class JwtSettings
+    public class JwtSetting
     {
         public string Issuer { get; set; }
         public string Key { get; set; }

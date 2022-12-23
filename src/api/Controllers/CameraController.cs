@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using API.Repositories;
 using API.Shared;
-using AutogateAPI.Models;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,17 +24,17 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Index()
         {
-            var cameras = await _cameraRepository.Gets();
-            return Ok(Result<IEnumerable>.Ok(cameras));
+            var cameras = await _cameraRepository.GetList();
+            return Ok(Result.Ok(cameras));
         }
 
         [HttpGet("videos")]
         public async Task<IActionResult> GetVideos()
         {
             var videos = await _cameraRepository.GetVideos();
-            return Ok(Result<IEnumerable>.Ok(videos));
+            return Ok(Result.Ok(videos));
         }
     }
 }

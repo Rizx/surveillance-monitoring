@@ -5,9 +5,9 @@ namespace API.Shared
 {
     public class Result<T>
     {
+        public int StatusCode { get; set; }
         public bool Success { get; set; }
         public T Data { get; set; }
-        public int StatusCode { get; set; }
         public List<string> ErrorMessages { get; set; } = new List<string>();
         public string Exception { get; set; }
 
@@ -34,15 +34,15 @@ namespace API.Shared
 
         public static Result<T> Ok(T result)
         {
-            return new Result<T>(true, result, 200, new List<string>(), string.Empty);
+            return new Result<T>(true, result, 200, null, null);
         }
 
-        public static Result<T> Fail(string errorMessage, int statusCode = (int)HttpStatusCode.InternalServerError, string exception = null)
+        public static Result<T> Fail(string errorMessage, int statusCode = (int)HttpStatusCode.BadRequest, string exception = null)
         {
             return new Result<T>(false, statusCode, new List<string>() { errorMessage }, exception);
         }
 
-        public static Result<T> Fail(List<string> errorMessages, int statusCode = (int)HttpStatusCode.InternalServerError, string exception = null)
+        public static Result<T> Error(List<string> errorMessages, int statusCode = (int)HttpStatusCode.InternalServerError, string exception = null)
         {
             return new Result<T>(false, statusCode, errorMessages, exception);
         }
@@ -62,15 +62,25 @@ namespace API.Shared
 
         public static Result Ok()
         {
-            return new Result(false, 200, new List<string>(), string.Empty);
+            return new Result(false, 200, null, null);
         }
 
-        new public static Result Fail(string errorMessage, int statusCode = (int)HttpStatusCode.InternalServerError, string exception = null)
+        public static Result<T> Ok<T>(T result)
+        {
+            return new Result<T>(true, result, 200, null, null);
+        }
+
+        new public static Result Fail(string errorMessage, int statusCode = (int)HttpStatusCode.BadRequest, string exception = null)
         {
             return new Result(false, statusCode, new List<string>() { errorMessage }, exception);
         }
 
-        new public static Result Fail(List<string> errorMessages, int statusCode = (int)HttpStatusCode.InternalServerError, string exception = null)
+        new public static Result Fail(List<string> errorMessages, int statusCode = (int)HttpStatusCode.BadRequest, string exception = null)
+        {
+            return new Result(false, statusCode, errorMessages , exception);
+        }
+
+        new public static Result Error(List<string> errorMessages, int statusCode = (int)HttpStatusCode.InternalServerError, string exception = null)
         {
             return new Result(false, statusCode, errorMessages, exception);
         }

@@ -1,15 +1,15 @@
-namespace AutogateAPI.Models
+namespace API.Models
 {
-    public class Lanes
+    public class Lane
     {
-        public long Id { protected set; get; }
-        public string Name { protected set; get; }
-        public int TYPE { protected set; get; }
+        public long Id { set; get; }
+        public string Name { set; get; }
+        public int TYPE { set; get; }
 
         public const int GATEIN = 1;
         public const int GATEOUT = 2;
 
-        public Lanes(
+        public Lane(
             long id,
             string name,
             int type)

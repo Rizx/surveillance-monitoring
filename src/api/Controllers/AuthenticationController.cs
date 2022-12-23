@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
 using API.Repositories;
 using API.Shared;
-using AutogateAPI.Models;
+using API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using API.Extentions;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -13,13 +15,16 @@ namespace API.Controllers
     {
         private readonly ILogger<AuthenticationController> _logger;
         private readonly UserRepository _userRepository;
+        private readonly IMapper _mapper;
 
         public AuthenticationController(
             UserRepository userRepository,
+            IMapper mapper,
             ILogger<AuthenticationController> logger)
         {
-            _logger = logger;
             _userRepository = userRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpPost("[Action]")]
@@ -27,11 +32,17 @@ namespace API.Controllers
         {
             var user = await _userRepository.GetByUsername(request.Username);
             if(user == null)
-                return BadRequest(Result.Fail("Username not registered"));
-            else if(user.Password != request.Password)
+                return BadRequest(Result.Fail("User not registered"));
+
+            if (!user.Active)
+                return BadRequest(Result.Fail("Inactive User"));
+            
+            if(user.Password != request.Password.Hashing())
                 return BadRequest(Result.Fail("Password not match"));
-            else
-                return Ok(Result<Users>.Ok(user));
+
+            var result = _mapper.Map<UserResponse>(user);
+            result.Token = JwtGenerator.Generate(user.Id);
+            return Ok(Result.Ok(result));
         }
     }
 }

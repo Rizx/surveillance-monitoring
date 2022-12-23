@@ -21,6 +21,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using API.Extentions;
 using API.Middlewares;
+using System.Text.Json.Serialization;
 
 namespace API
 {
@@ -41,13 +42,15 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.RegisterAppSettings(Configuration);
+
             services.AddSingleton<GlobalExceptionHandler>();
+            
             services.RegisterRepositories();
             services.RegisterServices();
 
-            services.RegisterAppSettings(Configuration);
             services.AddCorsPolicy();
-            // services.RegisterOracleDb();
+            services.RegisterEF();
             services.AddSwaggerDocumentation();
             services.AddJWTAuthentication();
 
@@ -56,7 +59,11 @@ namespace API
             services.AddHttpContextAccessor();
             services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllers()
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
