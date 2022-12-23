@@ -10,11 +10,11 @@ class CCTVService {
   }
 
   getCCTVCameraList(baseApi, jwtToken) {
-    return axios.get(baseApi + `api/v1/cctv/camera`, this.httpHeader(jwtToken));
+    return axios.get(baseApi + `api/camera/videos`, this.httpHeader(jwtToken));
   }
 
   getCCTVList(baseApi, jwtToken) {
-    return axios.get(baseApi + `api/v1/cctv/list`, this.httpHeader(jwtToken));
+    return axios.get(baseApi + `api/camera`, this.httpHeader(jwtToken));
   }
 
   postCCTVRegister(baseApi, jwtToken, body) {

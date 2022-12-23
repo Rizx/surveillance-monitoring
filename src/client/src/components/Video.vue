@@ -7,10 +7,10 @@
             <option :value="null" disabled>-- Pilih CCTV --</option>
             <option
               v-for="video in videoList"
-              :value="video.cctvUrl"
-              :key="video.cctvName"
+              :value="video.videoUrl"
+              :key="video.name"
             >
-              {{ video.cctvName }}
+              {{ video.name }}
             </option>
           </b-form-select>
           <b-button

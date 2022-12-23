@@ -88,6 +88,11 @@ export default {
   name: "Login",
   data() {
     return {
+      authenticationBody: {
+        username: "",
+        password: "",
+      },
+
       modelUsername: "",
       modelPassword: "",
       showPassword: false,
@@ -109,10 +114,11 @@ export default {
 
     async postUserLogin() {
       this.loadingSubmit = true;
+      this.authenticationBody.username = this.modelUsername;
+      this.authenticationBody.password = this.modelPassword;
       UserService.postUserLogin(
         this.baseApi,
-        this.modelUsername,
-        this.modelPassword
+        this.authenticationBody
       )
         .then((response) => {
           if (response.data.success == true) {

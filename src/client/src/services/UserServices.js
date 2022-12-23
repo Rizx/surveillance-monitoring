@@ -9,9 +9,10 @@ class UserService {
     };
   }
 
-  postUserLogin(baseApi, username, password) {
+  postUserLogin(baseApi, body) {
     return axios.post(
-      baseApi + "api/user/login?username=" + username + "&password=" + password
+      baseApi + "api/authentication",
+      body
     );
   }
 
