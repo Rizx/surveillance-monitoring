@@ -4,7 +4,7 @@ namespace API.Models
     {
         public long Id { set; get; }
         public string Name { set; get; }
-        public int TYPE { set; get; }
+        public int Type { set; get; }
 
         public const int GATEIN = 1;
         public const int GATEOUT = 2;
@@ -16,7 +16,7 @@ namespace API.Models
         {
             this.Id = id;
             this.Name = name;
-            this.TYPE = type;
+            this.Type = type;
         }
 
         public void UpdateLane(
@@ -24,7 +24,7 @@ namespace API.Models
             int type)
         {
             this.Name = name;
-            this.TYPE = type;
+            this.Type = type;
         }
     }
 }

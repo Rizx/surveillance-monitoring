@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace API.Models
 {
-    public class UserListResponse
+    public class MemberResponse
     {
         [JsonPropertyName("memberid")]
         public long Id { set; get; }

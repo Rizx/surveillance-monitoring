@@ -14,6 +14,11 @@ namespace API.Repositories
         {
         }
 
+        public DbSet<Camera> Cameras { get; set; }
+        public DbSet<History> Histories { get; set; }
+        public DbSet<Lane> Lanes { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<Picture> Pictures { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

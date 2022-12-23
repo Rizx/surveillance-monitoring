@@ -50,7 +50,8 @@ namespace API.Controllers
         [HttpGet("id")]
         public async Task<IActionResult> Get([FromQuery] long id)
         {
-            var result = await _userRepository.Get(id);
+            var entity = await _userRepository.Get(id);
+            var result = _mapper.Map<UserResponse>(entity);
             if (result is null)
                 return BadRequest(Result.Fail("Not Found"));
             return Ok(Result.Ok(result));
@@ -110,8 +111,8 @@ namespace API.Controllers
             var result = await _userRepository.Update(entity);
 
             if (result == 0)
-                return BadRequest(Result.Fail("Regiter User Failed"));
-            return Ok(Result.Ok("Register User Succed"));
+                return BadRequest(Result.Fail("Update User Failed"));
+            return Ok(Result.Ok("Update User Succed"));
         }
     }
 }

@@ -14,15 +14,15 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly ILogger<AuthenticationController> _logger;
-        private readonly UserRepository _userRepository;
+        private readonly AuthenticationRepository _authRepository;
         private readonly IMapper _mapper;
 
         public AuthenticationController(
-            UserRepository userRepository,
+            AuthenticationRepository authRepository,
             IMapper mapper,
             ILogger<AuthenticationController> logger)
         {
-            _userRepository = userRepository;
+            _authRepository = authRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -30,7 +30,7 @@ namespace API.Controllers
         [HttpPost("[Action]")]
         public async Task<IActionResult> Authentication([FromBody] AuthenticationRequest request)
         {
-            var user = await _userRepository.GetByUsername(request.Username);
+            var user = await _authRepository.GetByUsername(request.Username);
             if(user == null)
                 return BadRequest(Result.Fail("User not registered"));
 
@@ -40,7 +40,7 @@ namespace API.Controllers
             if(user.Password != request.Password.Hashing())
                 return BadRequest(Result.Fail("Password not match"));
 
-            var result = _mapper.Map<UserResponse>(user);
+            var result = _mapper.Map<AuthenticationResponse>(user);
             result.Token = JwtGenerator.Generate(user.Id);
             return Ok(Result.Ok(result));
         }

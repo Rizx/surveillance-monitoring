@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace API.Models
 {
-    public class UserResponse
+    public class AuthenticationResponse
     {
         [JsonPropertyName("userid")]
         public long Id { set; get; }
@@ -16,5 +16,8 @@ namespace API.Models
 
         [JsonPropertyName("role")]
         public string Role { set; get; }
+
+        [JsonPropertyName("token")]
+        public string Token { set; get; }
     }
 }

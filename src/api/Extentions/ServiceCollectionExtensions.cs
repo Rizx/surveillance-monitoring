@@ -196,6 +196,8 @@ namespace API.Extentions
 
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<AuthenticationRepository>();
+            services.AddScoped<MemberRepository>();
             services.AddScoped<CameraRepository>();
             services.AddScoped<UserRepository>();
             return services;

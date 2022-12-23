@@ -5,7 +5,7 @@ namespace API.Models
         public long Id { set; get; }
         public long LaneId { set; get; }
         public string Name { set; get; }
-        public string IPAddress { set; get; }
+        public string IpAddress { set; get; }
         public string VideoUrl { set; get; }
         public string FotoUrl { set; get; }
         public string Model { set; get; }
@@ -24,7 +24,7 @@ namespace API.Models
             Id = id;
             LaneId = laneId;
             Name = name;
-            IPAddress = ipAddress;
+            IpAddress = ipAddress;
             VideoUrl = videoUrl;
             FotoUrl = fotoUrl;
             Model = model;

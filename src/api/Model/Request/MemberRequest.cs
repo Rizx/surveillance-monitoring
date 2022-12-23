@@ -1,15 +1,19 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace API.Models
 {
-    public class UserListResponse
+    public class MemberRequest
     {
         [JsonPropertyName("memberid")]
         public long Id { set; get; }
 
         [JsonPropertyName("username")]
         public string UserName { set; get; }
+        
+        [JsonPropertyName("password")]
+        public string Password { set; get; }
 
         [JsonPropertyName("fullname")]
         public string FullName { set; get; }
