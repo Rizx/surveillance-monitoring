@@ -3,21 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
-using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using APIRepositories;
-using APISettings;
+using API.Settings;
+using API.Repositories;
 
-namespace APIExtentions
+namespace API.Extentions
 {
     public static class ServiceCollectionExtensions
     {
@@ -148,7 +145,7 @@ namespace APIExtentions
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    SignatureValidator = (string token, TokenValidationParameters parameters) => new JwtSecurityToken(token),
+                    SignatureValidator = (string token, TokenValidationParameters _) => new JwtSecurityToken(token),
                     ValidateLifetime = true,
                     RequireExpirationTime = true,
                 };
@@ -189,6 +186,8 @@ namespace APIExtentions
 
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<CameraRepository>();
+            services.AddScoped<UserRepository>();
             return services;
         }
 

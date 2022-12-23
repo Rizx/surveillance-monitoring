@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace APIShared
+namespace API.Shared
 {
     public class Result<T>
     {

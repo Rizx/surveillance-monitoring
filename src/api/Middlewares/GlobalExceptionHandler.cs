@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using APIExceptions;
-using APIShared;
+using API.Exceptions;
+using API.Shared;
 
-namespace APIMiddlewares
+namespace API.Middlewares
 {
     internal class GlobalExceptionHandler : IMiddleware
     {
@@ -30,7 +30,7 @@ namespace APIMiddlewares
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
-                if (!(exception is WeatherForecastException) && exception.InnerException != null)
+                if (exception is not WeatherForecastException && exception.InnerException != null)
                 {
                     while (exception.InnerException != null)
                     {
@@ -39,7 +39,7 @@ namespace APIMiddlewares
                 }
 
                 int statusCode;
-                List<string> errorMessages = new List<string>();
+                List<string> errorMessages = new();
                 string exceptionMessage = exception.Message;
                 _logger.LogError(exception, exception.Message);
 

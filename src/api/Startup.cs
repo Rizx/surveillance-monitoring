@@ -19,8 +19,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using APIExtentions;
-using APIMiddlewares;
+using API.Extentions;
+using API.Middlewares;
 
 namespace API
 {
@@ -42,11 +42,11 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<GlobalExceptionHandler>();
-            services.RegisterServices();
             services.RegisterRepositories();
+            services.RegisterServices();
 
-            services.AddCorsPolicy();
             services.RegisterAppSettings(Configuration);
+            services.AddCorsPolicy();
             // services.RegisterOracleDb();
             services.AddSwaggerDocumentation();
             services.AddJWTAuthentication();

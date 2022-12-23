@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace APIExceptions
+namespace API.Exceptions
 {
     public class WeatherForecastException : Exception
     {

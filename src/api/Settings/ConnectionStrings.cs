@@ -1,8 +1,7 @@
-namespace APISettings
+namespace API.Settings
 {
     public class ConnectionStrings
     {
-        public string OracleConnection { get; set; }
-        public string PgConnection { get; set; }
+        public string Connection { get; set; }
     }
 }

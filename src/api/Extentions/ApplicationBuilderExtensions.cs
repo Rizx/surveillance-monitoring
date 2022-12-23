@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace APIExtentions
+namespace API.Extentions
 {
     internal static class ApplicationBuilderExtensions
     {

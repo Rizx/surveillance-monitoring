@@ -1,4 +1,4 @@
-namespace APISettings
+namespace API.Settings
 {
     public class JwtSettings
     {
