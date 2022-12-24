@@ -15,7 +15,7 @@ class WargaService {
 
   postTransactionRegister(baseApi, jwtToken, body) {
     return axios.post(
-      baseApi + `api/transaction/register`,
+      baseApi + `api/member`,
       body,
       this.httpHeader(jwtToken)
     );
