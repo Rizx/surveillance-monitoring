@@ -186,6 +186,11 @@ namespace API.Extentions
             services.Configure<JwtSetting>(configuration.GetSection(nameof(JwtSetting)));
             // services.AddSingleton(ApplicationSettings.JwtSetting);
 
+            var serviceSection = configuration.GetSection(nameof(ServiceSetting));
+            serviceSection.Bind(ApplicationSettings.ServiceSetting);
+            services.Configure<ServiceSetting>(configuration.GetSection(nameof(ServiceSetting)));
+            // services.AddSingleton(ApplicationSettings.JwtSetting);
+
             return services;
         }
 
@@ -196,6 +201,7 @@ namespace API.Extentions
 
         public static IServiceCollection RegisterRepositories(this IServiceCollection services)
         {
+            services.AddScoped<HistoryRepository>();
             services.AddScoped<AuthenticationRepository>();
             services.AddScoped<MemberRepository>();
             services.AddScoped<CameraRepository>();

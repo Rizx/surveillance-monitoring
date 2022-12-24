@@ -32,6 +32,15 @@ namespace API.Repositories
                 new { USERNAME });
         }
 
+        public async Task<Member> GetByCard(string CARDID)
+        {
+            // using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
+            // return await connection.QueryFirstOrDefaultAsync<Member>(
+            //     "SELECT * FROM members WHERE CARDID LIKE  (%:CARDID%) ORDER BY ID DESC",
+            //     new { CARDID });
+            return await _context.Members.FirstOrDefaultAsync(x => x.CardId.Contains(CARDID));
+        }
+
         public async Task<Member> Get(long id)
         {
             return await _context.Members.FindAsync(id);

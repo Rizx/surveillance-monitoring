@@ -4,6 +4,7 @@ namespace API.Models
     {
         public long Id { set; get; }
         public long LaneId { set; get; }
+        public string Type { set; get; }
         public string Name { set; get; }
         public string IpAddress { set; get; }
         public string VideoUrl { set; get; }

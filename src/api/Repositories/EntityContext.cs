@@ -12,6 +12,7 @@ namespace API.Repositories
         public EntityContext(DbContextOptions<EntityContext> options)
             : base(options)
         {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
 
         public DbSet<Camera> Cameras { get; set; }
