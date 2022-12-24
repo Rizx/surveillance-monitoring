@@ -28,13 +28,11 @@
 
         <b-modal
           :id="'image-warga-modal-' + row.item.id"
-          :title="
-            row.item.activity + ' - ' + row.item.name
-          "
+          :title="row.item.activity + ' - ' + row.item.name"
           hide-footer
         >
           <b-carousel
-            :interval=0
+            :interval="0"
             data-interval="false"
             controls
             indicators
@@ -60,6 +58,7 @@
           v-b-tooltip.hover
           title="Daftarkan Kartu"
           v-b-modal="'register-warga-modal-' + row.item.id"
+          v-if="row.item.name == '' || row.item.name == null"
         >
           Daftar
         </b-button>
@@ -67,12 +66,30 @@
         <b-modal
           :id="'register-warga-modal-' + row.item.id"
           hide-header-close
-          :title="'Register Kartu - ' + row.item.no_kartu"
+          :title="'Register Kartu'"
           ok-title="Simpan"
           cancel-title="Batal"
           @ok="postTransactionRegister(row.item)"
         >
           <form ref="form">
+            <b-form-group
+              label="Nomor Kartu :"
+              label-for="form-no-card"
+              invalid-feedback="Nomor Kartu Wajib Diisi"
+              :state="noCardState"
+            >
+              <b-form-input
+                size="sm"
+                class="mb-3"
+                id="form-no-card"
+                placeholder="Masukkan Nomor Kartu"
+                v-model="row.item.cardid"
+                value="row.item.cardid"
+                :state="noCardState"
+                disabled
+              ></b-form-input>
+            </b-form-group>
+
             <b-form-group
               label="Nama :"
               label-for="form-warga-name"
@@ -91,24 +108,7 @@
             </b-form-group>
 
             <b-form-group
-              label="Nomor Kartu :"
-              label-for="form-no-card"
-              invalid-feedback="Nomor Kartu Wajib Diisi"
-              :state="noCardState"
-            >
-              <b-form-input
-                size="sm"
-                class="mb-3"
-                id="form-no-card"
-                placeholder="Masukkan Nomor Kartu"
-                v-model="row.item.no_kartu"
-                :state="noCardState"
-                required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="Nomor Rumah :"
+              label="No Rumah :"
               label-for="form-no-house"
               invalid-feedback="Nomor Rumah Wajib Diisi"
               :state="noHouseState"
@@ -117,9 +117,44 @@
                 size="sm"
                 class="mb-3"
                 id="form-no-house"
-                placeholder="Masukkan Nomor Rumah"
+                placeholder="Masukkan No Rumah"
                 v-model="row.item.nomor_rumah"
                 :state="noHouseState"
+                required
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+              label="Username :"
+              label-for="form-warga-username"
+              invalid-feedback="Username Wajib Diisi"
+              :state="wargaNameState"
+            >
+              <b-form-input
+                size="sm"
+                class="mb-3"
+                id="form-warga-username"
+                placeholder="Masukan Username"
+                v-model="row.item.username"
+                :state="wargaUsernameState"
+                required
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+              label="Password :"
+              label-for="form-warga-password"
+              invalid-feedback="Password Wajib Diisi"
+              :state="wargaPasswordState"
+            >
+              <b-form-input
+                size="sm"
+                class="mb-3"
+                id="form-warga-password"
+                placeholder="Masukan Password"
+                v-model="row.item.password"
+                :state="wargaPasswordnameState"
+                type="password"
                 required
               ></b-form-input>
             </b-form-group>
