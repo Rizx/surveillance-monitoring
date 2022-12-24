@@ -21,8 +21,8 @@ namespace API.Models
         [JsonPropertyName("address")]
         public string Address { set; get; }
 
-        [JsonPropertyName("cardNumber")]
-        public string CardNumber { set; get; }
+        [JsonPropertyName("cardid")]
+        public string CardId { set; get; }
 
         [JsonPropertyName("fotoProfile")]
         public string FotoProfile { set; get; }

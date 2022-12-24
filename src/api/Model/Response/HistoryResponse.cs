@@ -9,6 +9,9 @@ namespace API.Models
         [JsonPropertyName("id")]
         public long Id { set; get; }
 
+        [JsonPropertyName("cardid")]
+        public string CardId { set; get; }
+
         [JsonPropertyName("activity")]
         public string Activity { set; get; }
 

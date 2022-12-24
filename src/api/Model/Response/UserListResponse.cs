@@ -5,7 +5,7 @@ namespace API.Models
 {
     public class UserListResponse
     {
-        [JsonPropertyName("memberid")]
+        [JsonPropertyName("id")]
         public long Id { set; get; }
 
         [JsonPropertyName("username")]
@@ -13,15 +13,6 @@ namespace API.Models
 
         [JsonPropertyName("fullname")]
         public string FullName { set; get; }
-
-        [JsonPropertyName("address")]
-        public string Address { set; get; }
-
-        [JsonPropertyName("cardNumber")]
-        public string CardNumber { set; get; }
-
-        [JsonPropertyName("fotoProfile")]
-        public string FotoProfile { set; get; }
 
         [JsonPropertyName("active")]
         public bool Active { set; get; }

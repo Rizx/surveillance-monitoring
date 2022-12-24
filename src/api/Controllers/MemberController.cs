@@ -75,7 +75,7 @@ namespace API.Controllers
                 request.UserName,
                 request.Password.Hashing(),
                 request.Address,
-                request.CardNumber,
+                request.CardId,
                 request.FotoProfile,
                 active: true);
 
@@ -98,7 +98,7 @@ namespace API.Controllers
                 return BadRequest(Result.Fail("Member Unregistered"));
             }
 
-            entity.Changes(request.FullName, request.Address, request.CardNumber, request.FotoProfile, request.Active);
+            entity.Changes(request.FullName, request.Address, request.CardId, request.FotoProfile, request.Active);
             entity.ChangePassword(request.Password);
 
             var result = await _memberRepository.Update(entity);
@@ -107,5 +107,27 @@ namespace API.Controllers
                 return BadRequest(Result.Fail("Update Member Failed"));
             return Ok(Result.Ok("Update Member Succed"));
         }
+
+        /// <summary>
+        /// Register Member
+        /// </summary>
+        [HttpPost("card")]
+        public async Task<IActionResult> RegisterCard([FromBody] RegisterCardRequest request)
+        {
+            var entity = await _memberRepository.GetByUsername(request.UserName);
+            if (entity is null)
+            {
+                return BadRequest(Result.Fail("Member Unregistered"));
+            }
+
+            entity.CardId += $"|{request.CardId}";
+
+            var result = await _memberRepository.Update(entity);
+
+            if (result == 0)
+                return BadRequest(Result.Fail("Register Card Failed"));
+            return Ok(Result.Ok("Register Card Succed"));
+        }
+
     }
 }
