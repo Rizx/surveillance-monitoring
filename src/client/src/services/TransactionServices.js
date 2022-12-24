@@ -10,7 +10,7 @@ class WargaService {
   }
 
   getTransactionList(baseApi, jwtToken) {
-    return axios.get(baseApi + `api/v1/transaction/list`, this.httpHeader(jwtToken));
+    return axios.get(baseApi + `api/history`, this.httpHeader(jwtToken));
   }
 
   postTransactionRegister(baseApi, jwtToken, body) {
