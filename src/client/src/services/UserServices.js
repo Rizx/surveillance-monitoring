@@ -17,20 +17,20 @@ class UserService {
   }
 
   getUserList(baseApi, jwtToken) {
-    return axios.get(baseApi + `api/v1/user/list`, this.httpHeader(jwtToken));
+    return axios.get(baseApi + `api/user`, this.httpHeader(jwtToken));
   }
 
   postUserRegister(baseApi, jwtToken, body) {
     return axios.post(
-      baseApi + `api/user/register`,
+      baseApi + `api/user`,
       body,
       this.httpHeader(jwtToken)
     );
   }
 
-  postUserUpdate(baseApi, jwtToken, body) {
-    return axios.post(
-      baseApi + `api/user/update`,
+  putUserUpdate(baseApi, jwtToken, body) {
+    return axios.put(
+      baseApi + `api/user`,
       body,
       this.httpHeader(jwtToken)
     );

@@ -5,7 +5,7 @@ namespace API.Models
 {
     public class AuthenticationResponse
     {
-        [JsonPropertyName("userid")]
+        [JsonPropertyName("id")]
         public long Id { set; get; }
 
         [JsonPropertyName("username")]

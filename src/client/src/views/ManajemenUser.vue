@@ -162,7 +162,8 @@ export default {
         fullname: "",
         username: "",
         password: "",
-        active: false,
+        role: "Administrator",
+        active: true,
       },
 
       currentPage: 1,

@@ -44,7 +44,7 @@
           hide-header-close
           title="Edit User"
           ok-title="Save"
-          @ok="postUserUpdate(row.item)"
+          @ok="putUserUpdate(row.item)"
         >
           <b-form-group label="Nama Lengakp :" label-for="form-fullname">
             <b-form-input
@@ -176,14 +176,14 @@ export default {
       }
     },
 
-    postUserUpdate(item) {
+    putUserUpdate(item) {
       this.loadingTableList = true;
-      UserService.postUserUpdate(this.baseApi, this.jwtToken, {
+      UserService.putUserUpdate(this.baseApi, this.jwtToken, {
         id: item.id,
         fullname: item.fullname,
         username: item.username,
         password: this.passwordUser,
-        active: item.active,
+        role: "Administrator"
       })
         .then((response) => {
           if (response.data.success == true) {

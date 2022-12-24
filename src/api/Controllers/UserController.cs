@@ -78,6 +78,9 @@ namespace API.Controllers
                 return BadRequest(Result.Fail("User Registered"));
             }
 
+            if(string.IsNullOrEmpty(request.Role))
+                request.Role = "Administrator";
+
             var user = new User(
                 id: 0,
                 request.FullName,
@@ -99,7 +102,7 @@ namespace API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserRequest request)
         {
-            var entity = await _userRepository.Get(request.UserId);
+            var entity = await _userRepository.Get(request.Id);
             if (entity is null)
             {
                 return BadRequest(Result.Fail("User Unregistered"));
