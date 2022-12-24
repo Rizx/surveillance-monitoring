@@ -10,7 +10,11 @@ namespace API.Models
         public string VideoUrl { set; get; }
         public string FotoUrl { set; get; }
         public string Model { set; get; }
+        public string UserName { set; get; }
+        public string Password { set; get; }
         public string Parameters { set; get; }
+
+        protected Camera(){}
 
         public Camera(
             long id,
@@ -20,6 +24,8 @@ namespace API.Models
             string videoUrl,
             string fotoUrl,
             string model,
+            string userName,
+            string password,
             string parameters)
         {
             Id = id;
@@ -29,6 +35,8 @@ namespace API.Models
             VideoUrl = videoUrl;
             FotoUrl = fotoUrl;
             Model = model;
+            UserName = userName;
+            Password = password;
             Parameters = parameters;
         }
     }

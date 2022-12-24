@@ -4,7 +4,7 @@
     <Header :title="'Manajemen CCTV'" />
     <div style="margin-left: 50px">
       <b-container fluid>
-        <b-row class="mx-1 mt-4" align-h="end">
+        <!-- <b-row class="mx-1 mt-4" align-h="end">
           <div>
             <b-button
               variant="info"
@@ -85,7 +85,7 @@
               </form>
             </b-modal>
           </div>
-        </b-row>
+        </b-row> -->
         <b-skeleton-table
           class="mt-3"
           v-if="!loadingTableList"
@@ -137,12 +137,16 @@ export default {
       items: [],
       fields: [
         {
-          key: "ip_camera",
-          label: "IP CCTV",
+          key: "name",
+          label: "NAMA",
         },
         {
-          key: "name_camera",
-          label: "NAMA CCTV",
+          key: "model",
+          label: "Model",
+        },
+        {
+          key: "ipAddress",
+          label: "IP ADDRESS",
         },
         {
           key: "username",
@@ -151,10 +155,6 @@ export default {
         {
           key: "password",
           label: "PASSWORD",
-        },
-        {
-          key: "action",
-          label: "ACTION",
         },
       ],
     };
@@ -194,7 +194,6 @@ export default {
         return;
       } else {
         this.modalShow = false;
-        this.postWargaRegister();
       }
     },
 
@@ -283,5 +282,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

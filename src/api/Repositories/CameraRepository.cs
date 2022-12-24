@@ -31,7 +31,7 @@ namespace API.Repositories
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
             return await connection.QueryAsync<VideoUrlResponse>(
-                "SELECT name, videourl FROM cameras ORDER BY ID DESC");
+                "SELECT name, videourl FROM cameras ORDER BY NAME");
         }
 
         public async Task<IEnumerable<Camera>> GetList()
