@@ -29,12 +29,12 @@
         <b-modal
           :id="'image-warga-modal-' + row.item.id"
           :title="
-            'Capture - ' + row.item.aktivitas + ' (' + row.item.no_kartu + ')'
+            row.item.activity + ' - ' + row.item.name
           "
           hide-footer
         >
           <b-carousel
-            :interval="4000"
+            :interval=0
             data-interval="false"
             controls
             indicators
@@ -44,7 +44,7 @@
             style="text-shadow: 1px 1px 2px #333"
           >
             <b-carousel-slide
-              v-for="capture in row.item.gambar"
+              v-for="capture in row.item.photos"
               :key="capture"
               :img-src="capture"
             />
@@ -83,7 +83,7 @@
                 size="sm"
                 class="mb-3"
                 id="form-warga-name"
-                placeholder="Masukkan Nomor Kartu"
+                placeholder="Nama Pemilik"
                 v-model="row.item.nama"
                 :state="wargaNameState"
                 required

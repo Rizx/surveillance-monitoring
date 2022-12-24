@@ -41,22 +41,10 @@ export default {
       totalRows: 1,
       items: [],
       fields: [
-        {
-          key: "aktivitas",
-          label: "AKTIVITAS",
-        },
-        {
-          key: "no_kartu",
-          label: "NOMOR KARTU",
-        },
-        {
-          key: "nama",
-          label: "NAMA",
-        },
-        {
-          key: "nomor_rumah",
-          label: "NOMOR RUMAH",
-        },
+        { key: "activity", label: "AKTIVITAS" },
+        { key: "name", label: "NAMA" },
+        { key: "address",label: "NOMOR RUMAH"},
+        { key: "state",label: "STATUS"},
         { key: "gambar", label: "GAMBAR" },
         { key: "action", label: "ACTION" },
       ],
