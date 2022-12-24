@@ -6,7 +6,7 @@ namespace API.Models
 {
     public class HistoryResponse
     {
-        [JsonPropertyName("userid")]
+        [JsonPropertyName("id")]
         public long Id { set; get; }
 
         [JsonPropertyName("activity")]
