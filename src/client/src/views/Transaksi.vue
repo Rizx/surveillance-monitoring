@@ -42,8 +42,9 @@ export default {
       items: [],
       fields: [
         { key: "activity", label: "AKTIVITAS" },
+        { key: "cardid", label: "No Kartu" },
         { key: "name", label: "NAMA" },
-        { key: "address",label: "NOMOR RUMAH"},
+        { key: "address",label: "NO RUMAH"},
         { key: "state",label: "STATUS"},
         { key: "gambar", label: "GAMBAR" },
         { key: "action", label: "ACTION" },
