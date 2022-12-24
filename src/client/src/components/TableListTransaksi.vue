@@ -82,81 +82,31 @@
                 size="sm"
                 class="mb-3"
                 id="form-no-card"
-                placeholder="Masukkan Nomor Kartu"
                 v-model="row.item.cardid"
                 value="row.item.cardid"
-                :state="noCardState"
                 disabled
               ></b-form-input>
             </b-form-group>
 
             <b-form-group
-              label="Nama :"
-              label-for="form-warga-name"
+              label="Nama Warga:"
+              label-for="form-no-card"
               invalid-feedback="Nama Wajib Diisi"
-              :state="wargaNameState"
             >
-              <b-form-input
+              <b-form-select
                 size="sm"
                 class="mb-3"
-                id="form-warga-name"
-                placeholder="Nama Pemilik"
-                v-model="row.item.nama"
-                :state="wargaNameState"
-                required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="No Rumah :"
-              label-for="form-no-house"
-              invalid-feedback="Nomor Rumah Wajib Diisi"
-              :state="noHouseState"
-            >
-              <b-form-input
-                size="sm"
-                class="mb-3"
-                id="form-no-house"
-                placeholder="Masukkan No Rumah"
-                v-model="row.item.nomor_rumah"
-                :state="noHouseState"
-                required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="Username :"
-              label-for="form-warga-username"
-              invalid-feedback="Username Wajib Diisi"
-              :state="wargaNameState"
-            >
-              <b-form-input
-                size="sm"
-                class="mb-3"
-                id="form-warga-username"
-                placeholder="Masukan Username"
+                id="form-name"
                 v-model="row.item.username"
-                :state="wargaUsernameState"
-                required
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="Password :"
-              label-for="form-warga-password"
-              invalid-feedback="Password Wajib Diisi"
-              :state="wargaPasswordState"
-            >
-              <b-form-input
-                size="sm"
-                class="mb-3"
-                id="form-warga-password"
-                placeholder="Masukan Password"
-                v-model="row.item.password"
-                :state="wargaPasswordnameState"
-                type="password"
-                required
-              ></b-form-input>
+              >
+                <option
+                  v-for="item in options"
+                  :value="item.username"
+                  :key="item.fullname"
+                >
+                  {{ item.fullname }}
+                </option></b-form-select
+              >
             </b-form-group>
           </form>
         </b-modal>
@@ -167,7 +117,7 @@
 
 <script>
 import Swal from "sweetalert2";
-import TransactionService from "../services/TransactionServices";
+import WargaService from "../services/WargaServices";
 
 export default {
   name: "TableListTransaksi",
@@ -180,6 +130,7 @@ export default {
   },
   data() {
     return {
+      options: [],
       pageOptions: [5, 10, 20, 50, 100],
       sortBy: "",
       sortDesc: false,
@@ -191,9 +142,15 @@ export default {
       noCardState: null,
     };
   },
-  mounted() {},
+  mounted() {
+    this.onInit();
+  },
 
   methods: {
+    async onInit() {
+      await this.getWargaList();
+    },
+
     showModal() {
       this.modalShow = true;
     },
@@ -220,13 +177,44 @@ export default {
       return valid;
     },
 
+    async getWargaList() {
+      this.loadingTableList = false;
+      WargaService.getWargaList(this.baseApi, this.jwtToken)
+        .then((response) => {
+          console.log(response);
+          this.options = response.data.data;
+        })
+        .catch((error) => {
+          // console.log(error);
+          this.loadingTableList = true;
+          let text = error.response.data.error;
+          let statusCode = error.response.status;
+          if (text == "Network Error") {
+            window.location.href = this.baseApi;
+          }
+          if (statusCode == 401) {
+            Swal.fire({
+              icon: "error",
+              title: "Error " + statusCode + " - Unauthorized",
+              text: "Sorry, Your request could not be processed.",
+            });
+          }
+          if (statusCode != 200 && statusCode != 401) {
+            Swal.fire({
+              icon: "error",
+              title: "Error " + statusCode,
+              text: text,
+            });
+          }
+        });
+    },
+
     postTransactionRegister(item) {
       this.loadingTableList = true;
-      TransactionService.postTransactionRegister(this.baseApi, this.jwtToken, {
+      WargaService.postCardRegister(this.baseApi, this.jwtToken, {
         id: item.id,
-        nama: item.nama,
-        no_kartu: item.no_kartu,
-        nomor_rumah: item.nomor_rumah,
+        cardid: item.cardid,
+        username: item.username,
       })
         .then((response) => {
           if (response.data.success == true) {
@@ -234,10 +222,6 @@ export default {
             Swal.fire({
               icon: "success",
               title: "Success !",
-              text:
-                "Nomor Kartu : " +
-                item.no_kartu +
-                " have been successfully Edited",
             });
           }
         })

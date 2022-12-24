@@ -21,14 +21,17 @@ namespace API.Controllers
     {
         private readonly ILogger<MemberController> _logger;
         private readonly MemberRepository _memberRepository;
+        private readonly HistoryRepository _historyRepository;
         private readonly IMapper _mapper;
 
         public MemberController(
             MemberRepository memberRepository,
+            HistoryRepository historyRepository,
             IMapper mapper,
             ILogger<MemberController> logger)
         {
             _memberRepository = memberRepository;
+            _historyRepository = historyRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -120,9 +123,17 @@ namespace API.Controllers
                 return BadRequest(Result.Fail("Member Unregistered"));
             }
 
-            entity.CardId += $"|{request.CardId}";
+            if(!entity.CardId.Contains(request.CardId))
+                entity.CardId += $"|{request.CardId}";
 
             var result = await _memberRepository.Update(entity);
+            var history = await _historyRepository.Get(request.HistoryId);
+            if (history is not null)
+            {
+                history.Name = entity.Fullname;
+                history.Address = entity.Address;
+                await _historyRepository.Update(history);
+            }
 
             if (result == 0)
                 return BadRequest(Result.Fail("Register Card Failed"));

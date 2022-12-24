@@ -6,6 +6,9 @@ namespace API.Models
 {
     public class RegisterCardRequest
     {
+        [JsonPropertyName("id")]
+        public long HistoryId { set; get; }
+
         [JsonPropertyName("cardid")]
         public string CardId { set; get; }
 

@@ -24,6 +24,11 @@ namespace API.Repositories
             _context = context;
         }
 
+        public async Task<History> Get(long id)
+        {
+            return await _context.Histories.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<IEnumerable<History>> GetList()
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
@@ -35,6 +40,12 @@ namespace API.Repositories
         public async Task<int> Add(History entity)
         {
             await _context.Histories.AddAsync(entity);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> Update(History entity)
+        {
+            _context.Histories.Update(entity);
             return await _context.SaveChangesAsync();
         }
     }

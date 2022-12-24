@@ -10,20 +10,28 @@ class WargaService {
   }
 
   getWargaList(baseApi, jwtToken) {
-    return axios.get(baseApi + `api/v1/warga/list`, this.httpHeader(jwtToken));
+    return axios.get(baseApi + `api/member`, this.httpHeader(jwtToken));
+  }
+
+  postCardRegister(baseApi, jwtToken, body) {
+    return axios.post(
+      baseApi + `api/member/card`,
+      body,
+      this.httpHeader(jwtToken)
+    );
   }
 
   postWargaRegister(baseApi, jwtToken, body) {
     return axios.post(
-      baseApi + `api/warga/register`,
+      baseApi + `api/member`,
       body,
       this.httpHeader(jwtToken)
     );
   }
 
   postWargaUpdate(baseApi, jwtToken, body) {
-    return axios.post(
-      baseApi + `api/warga/update`,
+    return axios.put(
+      baseApi + `api/member`,
       body,
       this.httpHeader(jwtToken)
     );
