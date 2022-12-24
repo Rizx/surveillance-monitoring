@@ -12,7 +12,8 @@ namespace API.Mapping
     {
         public HistoryProfile()
         {
-            CreateMap<History, HistoryResponse>().ReverseMap();
+            CreateMap<History, HistoryResponse>().ReverseMap()
+            .ForMember(x=>x.Date, opt => opt.MapFrom(src => src.Date));
         }
     }
 }

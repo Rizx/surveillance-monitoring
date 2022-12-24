@@ -33,7 +33,7 @@ namespace API.Repositories
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
             return await connection.QueryAsync<History>(
-                "SELECT * FROM histories ORDER BY ID");
+                "SELECT * FROM histories ORDER BY ID DESC");
             // return await _context.Histories.ToListAsync();
         }
 

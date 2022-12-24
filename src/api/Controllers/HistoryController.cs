@@ -14,6 +14,8 @@ using System.Net;
 using System.Linq;
 using Microsoft.Extensions.Options;
 using API.Settings;
+using System.IO;
+using API.Services;
 
 namespace API.Controllers
 {
@@ -61,13 +63,21 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] HistoryRequest request)
         {
-            var captureUrl = await _cameraRepository.GetCaptureUrl(request.Activity);
+            var cameras = (await _cameraRepository.GetCaptureUrl(request.Activity)).ToList();
             var photos = new List<string>();
-            for (int counter = 1; counter <= captureUrl.Count(); counter++)
+            for (int counter = 1; counter <= cameras.Count; counter++)
             {
+                var camera = cameras[counter-1];
                 var name = GeneratePhotoName(request.Activity, request.CardId, counter);
-                var url = CombineUrl(_serviceSetting.PhotoDirectory, name);
+                var url = CombineUrl(_serviceSetting.PhotoDirectory, name.Replace('\\', '/'));
                 photos.Add(url);
+
+                var image = CameraService.CaptureImage(camera);
+                if (image.Length > 0)
+                {
+                    var fullPath = Path.Combine(_serviceSetting.PhotoPath, name);
+                    FileService.WriteImage(fullPath, image);
+                }
             }
 
             var member = await _memberRepository.GetByCard(request.CardId);
@@ -91,14 +101,30 @@ namespace API.Controllers
 
         private static string GeneratePhotoName(string activity, string cardid, int counter)
         {
-            return $"{activity.ToLower()}_{DateTime.Now:yyyyMMddHHmmss}_{cardid}_{counter}";
+            return Path.Combine(
+                $"{DateTime.Now:yyyy}",
+                $"{DateTime.Now:MM}",
+                $"{DateTime.Now:dd}",
+                $"{activity.ToLower()}_{DateTime.Now:yyyyMMddHHmmss}_{cardid}_{counter}.jpg");
         }
 
         private static string CombineUrl(string url, string param)
         {
-            if(url.Last() == '/')
+            if (url.Last() == '/')
                 url = url[..^1];
-            return $"{url}/{param}.jpg";
+
+            return UriCombine(url, param);
+        }
+
+        private static string UriCombine(string uri, params string[] segments)
+        {
+            if (string.IsNullOrWhiteSpace(uri))
+                return null;
+
+            if (segments == null || segments.Length == 0)
+                return uri;
+
+            return segments.Aggregate(uri, (current, segment) => $"{current.TrimEnd('/')}/{segment.TrimStart('/')}");
         }
     }
 }

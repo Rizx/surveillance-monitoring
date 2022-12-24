@@ -25,7 +25,7 @@ namespace API.Models
         public string State { set; get; }
 
         [JsonPropertyName("date")]
-        public DateTime Date { set; get; }
+        public string Date { set; get; }
 
         [JsonPropertyName("photos")]
         public List<string> Photos { set; get; }

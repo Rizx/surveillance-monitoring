@@ -46,6 +46,7 @@ export default {
         { key: "cardid", label: "No Kartu" },
         { key: "name", label: "NAMA" },
         { key: "address", label: "NO RUMAH" },
+        { key: "date", label: "WAKTU" },
         { key: "state", label: "STATUS" },
         { key: "gambar", label: "GAMBAR" },
         { key: "action", label: "ACTION" },

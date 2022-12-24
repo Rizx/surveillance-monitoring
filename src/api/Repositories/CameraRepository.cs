@@ -19,11 +19,11 @@ namespace API.Repositories
             _connectionStrings = connectionStrings.Value.Connection;
         }
 
-        public async Task<IEnumerable<string>> GetCaptureUrl(string TYPE)
+        public async Task<IEnumerable<Camera>> GetCaptureUrl(string TYPE)
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
-            return await connection.QueryAsync<string>(
-                "SELECT fotourl FROM cameras where TYPE = :TYPE ORDER BY ID DESC",
+            return await connection.QueryAsync<Camera>(
+                "SELECT * FROM cameras where TYPE = :TYPE ORDER BY ID DESC",
                 new { TYPE });
         }
 
