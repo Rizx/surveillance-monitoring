@@ -165,7 +165,7 @@ export default {
         return;
       } else {
         // this.modalShow = false;
-        // this.postWargaUpdate();
+        // this.putWargaUpdate();
       }
     },
 

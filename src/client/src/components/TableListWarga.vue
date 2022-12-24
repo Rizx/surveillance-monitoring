@@ -29,10 +29,10 @@
         <b-modal
           :id="'edit-warga-modal-' + row.item.id"
           hide-header-close
-          :title="'Edit Warga - ' + row.item.nama_warga"
+          :title="'Warga - ' + row.item.fullname"
           ok-title="Simpan"
           cancel-title="Batal"
-          @ok="postWargaUpdate(row.item)"
+          @ok="putWargaUpdate(row.item)"
         >
           <form ref="form">
             <b-form-group
@@ -46,7 +46,7 @@
                 class="mb-3"
                 id="form-name-warga"
                 placeholder="Masukkan Nama Warga"
-                v-model="row.item.nama_warga"
+                v-model="row.item.fullname"
                 :state="wargaNameState"
                 required
               ></b-form-input>
@@ -55,7 +55,7 @@
             <b-form-group
               label="Nomor Rumah :"
               label-for="form-no-house"
-              invalid-feedback="Nomor Rumah Wajib Diisi"
+              invalid-feedback="No Rumah Wajib Diisi"
               :state="noHouseState"
             >
               <b-form-input
@@ -63,7 +63,7 @@
                 class="mb-3"
                 id="form-no-house"
                 placeholder="Masukkan Nomor Rumah"
-                v-model="row.item.nomor_rumah"
+                v-model="row.item.address"
                 :state="noHouseState"
                 required
               ></b-form-input>
@@ -80,9 +80,22 @@
                 class="mb-3"
                 id="form-no-card"
                 placeholder="Masukkan Nomor Kartu"
-                v-model="row.item.nomor_kartu"
+                v-model="row.item.cardid"
                 :state="noCardState"
                 required
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+              label="Password :"
+              label-for="form-password"
+            >
+              <b-form-input
+                size="sm"
+                class="mb-3"
+                id="form-password"
+                placeholder="Ganti Password"
+                v-model="row.item.password"
               ></b-form-input>
             </b-form-group>
           </form>
@@ -135,7 +148,7 @@ export default {
         return;
       } else {
         // this.modalShow = false;
-        // this.postWargaUpdate();
+        // this.putWargaUpdate();
       }
     },
 
@@ -147,12 +160,16 @@ export default {
       return valid;
     },
 
-    postWargaUpdate(item) {
+    putWargaUpdate(item) {
       this.loadingTableList = true;
-      WargaService.postWargaUpdate(this.baseApi, this.jwtToken, {
+      WargaService.putWargaUpdate(this.baseApi, this.jwtToken, {
         id: item.id,
-        nama_warga: item.nama_warga,
-        nomor_kartu: item.nomor_kartu,
+        username: item.username,
+        password: item.password,
+        fullname: item.fullname,
+        address: item.address,
+        cardid: item.cardid,
+        active: item.active,
       })
         .then((response) => {
           if (response.data.success == true) {

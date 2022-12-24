@@ -29,7 +29,7 @@ class WargaService {
     );
   }
 
-  postWargaUpdate(baseApi, jwtToken, body) {
+  putWargaUpdate(baseApi, jwtToken, body) {
     return axios.put(
       baseApi + `api/member`,
       body,

@@ -26,18 +26,45 @@
             >
               <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
+                  label="Username :"
+                  label-for="form-username"
+                  invalid-feedback="Username Wajib Diisi"
+                  :state="wargaUsernameState"
+                >
+                  <b-form-input
+                    size="sm"
+                    class="mb-3"
+                    id="form-username"
+                    placeholder="Masukkan Username"
+                    v-model="wargaBody.username"
+                    :state="wargaUsernameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group label="Password :" label-for="form-password">
+                  <b-form-input
+                    size="sm"
+                    class="mb-3"
+                    id="form-password"
+                    placeholder="Masukkan Password"
+                    v-model="wargaBody.password"
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group
                   label="Nama :"
                   label-for="form-ip-cctv"
                   invalid-feedback="Nama Warga Wajib Diisi"
-                  :state="wargaNameState"
+                  :state="fullnameState"
                 >
                   <b-form-input
                     size="sm"
                     class="mb-3"
                     id="form-ip-cctv"
                     placeholder="Masukkan Nama Warga"
-                    v-model="wargaBody.wargaName"
-                    :state="wargaNameState"
+                    v-model="wargaBody.fullname"
+                    :state="fullnameState"
                     required
                   ></b-form-input>
                 </b-form-group>
@@ -46,32 +73,15 @@
                   label="Nomor Rumah :"
                   label-for="form-name-cctv"
                   invalid-feedback="Nomor Rumah Wajib Diisi"
-                  :state="noHouseState"
+                  :state="addressState"
                 >
                   <b-form-input
                     size="sm"
                     class="mb-3"
                     id="form-name-cctv"
                     placeholder="Masukkan Nomor Rumah"
-                    v-model="wargaBody.noHouse"
-                    :state="noHouseState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group
-                  label="Nomor Kartu :"
-                  label-for="form-name-cctv"
-                  invalid-feedback="Nomor Kartu Wajib Diisi"
-                  :state="noCardState"
-                >
-                  <b-form-input
-                    size="sm"
-                    class="mb-3"
-                    id="form-name-cctv"
-                    placeholder="Masukkan Nomor Kartu"
-                    v-model="wargaBody.noCard"
-                    :state="noCardState"
+                    v-model="wargaBody.address"
+                    :state="addressState"
                     required
                   ></b-form-input>
                 </b-form-group>
@@ -112,15 +122,15 @@ export default {
   data() {
     return {
       modalShow: false,
-      wargaNameState: null,
-      noHouseState: null,
-      noCardState: null,
+      fullnameState: null,
+      addressState: null,
 
       wargaBody: {
         id: 0,
-        wargaName: "",
-        noHouse: "",
-        noCard: "",
+        fullname: "",
+        address: "",
+        username: "",
+        password: "",
       },
 
       currentPage: 1,
@@ -129,16 +139,24 @@ export default {
       items: [],
       fields: [
         {
-          key: "nama_warga",
+          key: "username",
+          label: "USERNAME",
+        },
+        {
+          key: "fullname",
           label: "NAMA",
         },
         {
-          key: "nomor_rumah",
-          label: "NOMOR RUMAH",
+          key: "address",
+          label: "NO RUMAH",
         },
         {
-          key: "nomor_kartu",
-          label: "NOMOR KARTU",
+          key: "cardid",
+          label: "NO KARTU",
+        },
+        {
+          key: "active",
+          label: "STATUS",
         },
         { key: "action", label: "ACTION" },
       ],
@@ -184,12 +202,11 @@ export default {
 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
-      this.wargaNameState = valid;
-      this.noHouseState = valid;
-      this.noCardState = valid;
+      this.fullnameState = valid;
+      this.addressState = valid;
       return valid;
     },
-    
+
     async getWargaList() {
       this.loadingTableList = false;
       WargaService.getWargaList(this.baseApi, this.jwtToken)
@@ -226,7 +243,11 @@ export default {
 
     async postWargaRegister() {
       this.loadingTableList = false;
-      WargaService.postWargaRegister(this.baseApi, this.jwtToken, this.userBody)
+      WargaService.postWargaRegister(
+        this.baseApi,
+        this.jwtToken,
+        this.wargaBody
+      )
         .then((response) => {
           if (response.data.success == true) {
             Swal.fire({
@@ -268,5 +289,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

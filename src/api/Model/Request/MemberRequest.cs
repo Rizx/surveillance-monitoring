@@ -6,7 +6,7 @@ namespace API.Models
 {
     public class MemberRequest
     {
-        [JsonPropertyName("memberid")]
+        [JsonPropertyName("id")]
         public long Id { set; get; }
 
         [JsonPropertyName("username")]
