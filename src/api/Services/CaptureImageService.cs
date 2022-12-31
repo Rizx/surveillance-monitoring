@@ -8,7 +8,7 @@ using API.Models;
 
 namespace API.Services
 {
-    public static class CameraService
+    public static class CaptureImageService
     {
         // public static List<byte[]> CaptureImage(IEnumerable<Camera> cameras)
         // {
@@ -35,7 +35,7 @@ namespace API.Services
         //     return result;
         // }
 
-        public static byte[] CaptureImage(Camera camera)
+        public static byte[] Capture(Camera camera)
         {
             try
             {

@@ -19,6 +19,14 @@ namespace API.Repositories
             _connectionStrings = connectionStrings.Value.Connection;
         }
 
+        public async Task<Camera> Get(long ID)
+        {
+            using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
+            return await connection.QueryFirstOrDefaultAsync<Camera>(
+                "SELECT * FROM cameras where ID = :ID",
+                new { ID });
+        }
+
         public async Task<IEnumerable<Camera>> GetCaptureUrl(string TYPE)
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
@@ -38,7 +46,7 @@ namespace API.Repositories
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
             return await connection.QueryAsync<Camera>(
-                "SELECT * FROM cameras ORDER BY ID DESC");
+                "SELECT * FROM cameras ORDER BY NAME DESC");
         }
     }
 }

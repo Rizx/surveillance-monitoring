@@ -72,7 +72,7 @@ namespace API.Controllers
                 var url = CombineUrl(_serviceSetting.PhotoDirectory, name.Replace('\\', '/'));
                 photos.Add(url);
 
-                var image = CameraService.CaptureImage(camera);
+                var image = CaptureImageService.Capture(camera);
                 if (image.Length > 0)
                 {
                     var fullPath = Path.Combine(_serviceSetting.PhotoPath, name);

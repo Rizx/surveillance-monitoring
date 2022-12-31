@@ -15,6 +15,7 @@ using API.Settings;
 using API.Repositories;
 using Microsoft.EntityFrameworkCore;
 using API.Shared;
+using API.Services;
 
 namespace API.Extentions
 {
@@ -196,6 +197,7 @@ namespace API.Extentions
 
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
+            services.AddScoped<VideoStreamingService>();
             return services;
         }
 
