@@ -106,10 +106,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import WargaService from "../services/WargaServices";
+import PeopleService from "../services/PeopleServices";
 
 export default {
-  name: "TableListWarga",
+  name: "PeopleTable",
   props: {
     items: Array,
     fields: Array,
@@ -161,7 +161,7 @@ export default {
 
     putWargaUpdate(item) {
       this.loadingTableList = true;
-      WargaService.putWargaUpdate(this.baseApi, this.jwtToken, {
+      PeopleService.putWargaUpdate(this.baseApi, this.jwtToken, {
         id: item.id,
         username: item.username,
         password: item.password,

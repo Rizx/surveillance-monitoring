@@ -103,7 +103,7 @@ import Swal from "sweetalert2";
 import CameraService from "../services/CameraServices";
 
 export default {
-  name: "TableListCamera",
+  name: "CameraTable",
   props: {
     items: Array,
     fields: Array,

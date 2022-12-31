@@ -126,7 +126,7 @@
           :columns="3"
           :table-props="{ bordered: true, striped: true }"
         ></b-skeleton-table>
-        <TableListUser
+        <UserTable
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -143,12 +143,12 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListUser from "../components/TableListUser";
-import UserService from "../../services/UserServices";
+import UserTable from "../components/UserTable";
+import UserService from "../services/UserServices";
 
 export default {
   name: "UserManagement",
-  components: { Sidebar, Header, TableListUser },
+  components: { Sidebar, Header, UserTable },
   data() {
     return {
       modalShow: false,

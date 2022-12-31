@@ -96,7 +96,7 @@
           :columns="3"
           :table-props="{ bordered: true, striped: true }"
         ></b-skeleton-table>
-        <TableListWarga
+        <PeopleTable
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -113,12 +113,12 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListWarga from "../components/TableListWarga";
-import WargaService from "../services/WargaServices";
+import PeopleTable from "../components/PeopleTable";
+import PeopleService from "../services/PeopleServices";
 
 export default {
   name: "PeopleManagement",
-  components: { Sidebar, Header, TableListWarga },
+  components: { Sidebar, Header, PeopleTable },
   data() {
     return {
       modalShow: false,
@@ -205,7 +205,7 @@ export default {
 
     async getWargaList() {
       this.loadingTableList = false;
-      WargaService.getWargaList(this.baseApi, this.jwtToken)
+      PeopleService.getWargaList(this.baseApi, this.jwtToken)
         .then((response) => {
           // console.log(response);
           this.loadingTableList = true;
@@ -239,7 +239,7 @@ export default {
 
     async postWargaRegister() {
       this.loadingTableList = false;
-      WargaService.postWargaRegister(
+      PeopleService.postWargaRegister(
         this.baseApi,
         this.jwtToken,
         this.wargaBody

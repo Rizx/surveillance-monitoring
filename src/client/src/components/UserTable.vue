@@ -135,7 +135,7 @@ import Swal from "sweetalert2";
 import UserService from "../services/UserServices";
 
 export default {
-  name: "TableListUser",
+  name: "UserTable",
   props: {
     items: Array,
     fields: Array,

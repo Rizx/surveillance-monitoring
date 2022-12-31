@@ -11,7 +11,7 @@
           :columns="3"
           :table-props="{ bordered: true, striped: true }"
         ></b-skeleton-table>
-        <TableListActivity
+        <ActivityTable
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -28,12 +28,12 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListActivity from "../components/TableListActivity";
-import TransactionService from "../services/TransactionServices";
+import ActivityTable from "../components/ActivityTable";
+import ActivityService from "../services/ActivityServices";
 
 export default {
   name: "Activity",
-  components: { Sidebar, Header, TableListActivity },
+  components: { Sidebar, Header, ActivityTable },
   data() {
     return {
       currentPage: 1,
@@ -66,7 +66,7 @@ export default {
 
     async getTransactionList() {
       this.loadingTableList = false;
-      TransactionService.getTransactionList(this.baseApi, this.jwtToken)
+      ActivityService.getTransactionList(this.baseApi, this.jwtToken)
         .then((response) => {
           // console.log(response);
           this.loadingTableList = true;

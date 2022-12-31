@@ -94,7 +94,7 @@
           :table-props="{ bordered: true, striped: true }"
         >
         </b-skeleton-table>
-        <TableListCamera
+        <CameraTable
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -111,12 +111,12 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListCamera from "../components/TableListCamera";
+import CameraTable from "../components/CameraTable";
 import CameraService from "../services/CameraServices";
 
 export default {
   name: "CameraManagement",
-  components: { Sidebar, Header, TableListCamera },
+  components: { Sidebar, Header, CameraTable },
   data() {
     return {
       modalShow: false,

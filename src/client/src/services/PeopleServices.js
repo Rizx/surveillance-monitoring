@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class WargaService {
+class PeopleService {
   httpHeader(jwtToken) {
     return {
       headers: {
@@ -37,5 +37,5 @@ class WargaService {
     );
   }
 }
-const WargaServices = new WargaService();
-export { WargaServices as default };
+const PeopleServices = new PeopleService();
+export { PeopleServices as default };

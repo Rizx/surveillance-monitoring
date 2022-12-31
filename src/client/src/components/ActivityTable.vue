@@ -115,10 +115,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import WargaService from "../services/WargaServices";
+import PeopleService from "../services/PeopleServices";
 
 export default {
-  name: "TableListActivity",
+  name: "ActivityTable",
   props: {
     items: Array,
     fields: Array,
@@ -177,7 +177,7 @@ export default {
 
     async getWargaList() {
       this.loadingTableList = false;
-      WargaService.getWargaList(this.baseApi, this.jwtToken)
+      PeopleService.getWargaList(this.baseApi, this.jwtToken)
         .then((response) => {
           console.log(response);
           this.options = response.data.data;
@@ -209,7 +209,7 @@ export default {
 
     postTransactionRegister(item) {
       this.loadingTableList = true;
-      WargaService.postCardRegister(this.baseApi, this.jwtToken, {
+      PeopleService.postCardRegister(this.baseApi, this.jwtToken, {
         id: item.id,
         cardid: item.cardid,
         username: item.username,
