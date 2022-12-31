@@ -20,7 +20,6 @@
           variant="success"
           class="mr-1"
           v-b-tooltip.hover
-          title="Edit"
           v-b-modal="'edit-warga-modal-' + row.item.id"
         >
           <i class="fas fa-pen"> </i>

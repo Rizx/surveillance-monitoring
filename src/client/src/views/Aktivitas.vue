@@ -1,7 +1,7 @@
 <template>
   <div>
     <Sidebar />
-    <Header :title="'Transaksi'" />
+    <Header :title="'Aktivitas'" />
     <div style="margin-left: 50px">
       <b-container fluid>
         <b-skeleton-table
@@ -11,7 +11,7 @@
           :columns="3"
           :table-props="{ bordered: true, striped: true }"
         ></b-skeleton-table>
-        <TableListTransaksi
+        <TableListAktivitas
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -28,12 +28,12 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListTransaksi from "../components/TableListTransaksi";
+import TableListAktivitas from "../components/TableListAktivitas";
 import TransactionService from "../services/TransactionServices";
 
 export default {
-  name: "Transaksi",
-  components: { Sidebar, Header, TableListTransaksi },
+  name: "Aktivitas",
+  components: { Sidebar, Header, TableListAktivitas },
   data() {
     return {
       currentPage: 1,

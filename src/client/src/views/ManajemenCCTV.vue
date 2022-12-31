@@ -132,7 +132,7 @@ export default {
       },
 
       currentPage: 1,
-      perPage: 20,
+      perPage: 100,
       totalRows: 1,
       items: [],
       fields: [

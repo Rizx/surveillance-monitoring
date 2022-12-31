@@ -14,6 +14,7 @@
             </option>
           </b-form-select>
           <b-button
+            v-if="videoSelected != null"
             v-b-tooltip.hover
             title="Perbesar"
             variant="link"
@@ -23,16 +24,23 @@
             <b-icon icon="arrows-fullscreen" font-scale="1"></b-icon>
           </b-button>
 
-          <b-modal :id="'modal-video-' + videoSelected" size="lg" hide-footer>
-            <b-embed type="iframe" :src="videoSelected" allowfullscreen />
+          <b-modal :id="'modal-video-' + videoSelected" size="xl" hide-footer>
+            <!-- <b-embed
+              type="iframe"
+              :src="videoSelected"
+              allowfullscreen
+              aspect="16by9"
+            /> -->
+            <b-img :src="videoSelected" fluid-grow></b-img>
           </b-modal>
         </b-row>
-        <b-embed
+        <!-- <b-embed
           type="iframe"
-          aspect="16by9"
           :src="videoSelected"
           allowfullscreen
-        ></b-embed>
+          aspect="16by9"
+        ></b-embed> -->
+        <b-img :src="videoSelected" fluid-grow></b-img>
       </b-card>
     </b-overlay>
   </div>
@@ -50,9 +58,11 @@ export default {
       videoList: [],
     };
   },
+
   mounted() {
     this.onInit();
   },
+
   methods: {
     async onInit() {
       await this.getCCTVCameraList();
@@ -100,5 +110,6 @@ export default {
   float: none;
   border: none;
   background-color: #e0e0e0;
+  /* height: 40vh; */
 }
 </style>

@@ -33,7 +33,6 @@
           variant="success"
           class="mr-1"
           v-b-tooltip.hover
-          title="Edit"
           v-b-modal="'edit-user-modal-' + row.item.id"
         >
           <i class="fas fa-user-pen"> </i>
@@ -43,7 +42,8 @@
           :id="'edit-user-modal-' + row.item.id"
           hide-header-close
           title="Edit User"
-          ok-title="Save"
+          ok-title="Simpan"
+          cancel-title="Batal"
           @ok="putUserUpdate(row.item)"
         >
           <b-form-group label="Nama Lengakp :" label-for="form-fullname">

@@ -20,10 +20,9 @@
           variant="info"
           class="mr-1"
           v-b-tooltip.hover
-          title="Daftarkan Kartu"
           v-b-modal="'image-warga-modal-' + row.item.id"
         >
-          Capture
+          Gambar
         </b-button>
 
         <b-modal
@@ -31,7 +30,7 @@
           :title="row.item.activity + ' - ' + row.item.name"
           hide-footer
         >
-          <b-carousel
+          <b-carousel 
             :interval="0"
             data-interval="false"
             controls
@@ -56,7 +55,6 @@
           variant="success"
           class="mr-1"
           v-b-tooltip.hover
-          title="Daftarkan Kartu"
           v-b-modal="'register-warga-modal-' + row.item.id"
           v-if="row.item.name == '' || row.item.name == null"
         >
@@ -120,7 +118,7 @@ import Swal from "sweetalert2";
 import WargaService from "../services/WargaServices";
 
 export default {
-  name: "TableListTransaksi",
+  name: "TableListAktivitas",
   props: {
     items: Array,
     fields: Array,

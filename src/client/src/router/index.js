@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/Login";
 import CCTV from "../views/CCTV";
-import Transaksi from "../views/Transaksi";
+import Aktivitas from "../views/Aktivitas";
 import ManajemenCCTV from "../views/ManajemenCCTV";
 import ManajemenWarga from "../views/ManajemenWarga";
 import ManajemenUser from "../views/ManajemenUser";
@@ -21,9 +21,9 @@ const routes = [
     component: CCTV,
   },
   {
-    path: "/transaksi",
-    name: "Transaksi",
-    component: Transaksi,
+    path: "/aktivitas",
+    name: "Aktivitas",
+    component: Aktivitas,
   },
   {
     path: "/manajemen-cctv",

@@ -154,10 +154,6 @@ export default {
           key: "cardid",
           label: "NO KARTU",
         },
-        {
-          key: "active",
-          label: "STATUS",
-        },
         { key: "action", label: "ACTION" },
       ],
     };

@@ -25,8 +25,8 @@ export default {
           icon: "fa fa-video",
         },
         {
-          href: "/transaksi",
-          title: "Transaksi",
+          href: "/aktivitas",
+          title: "Aktivitas",
           icon: "fa fa-arrow-right-arrow-left",
         },
         {
