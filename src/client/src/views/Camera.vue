@@ -1,7 +1,7 @@
 <template>
   <div>
     <Sidebar />
-    <Header :title="'CCTV Monitoring'" />
+    <Header :title="'Camera Monitoring'" />
     <div style="margin-left: 50px">
       <b-col style="text-align: start">
         <b-row class="p-3">
@@ -47,7 +47,7 @@ import Header from "../components/Header";
 import Video from "../components/Video";
 
 export default {
-  name: "CCTV",
+  name: "Camera",
   components: { Sidebar, Header, Video },
   data() {
     return {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class CCTVService {
+class CameraService {
   httpHeader(jwtToken) {
     return {
       headers: {
@@ -9,29 +9,29 @@ class CCTVService {
     };
   }
 
-  getCCTVCameraList(baseApi, jwtToken) {
+  getCameraCameraList(baseApi, jwtToken) {
     return axios.get(baseApi + `api/camera/videos`, this.httpHeader(jwtToken));
   }
 
-  getCCTVList(baseApi, jwtToken) {
+  getCameraList(baseApi, jwtToken) {
     return axios.get(baseApi + `api/camera`, this.httpHeader(jwtToken));
   }
 
-  postCCTVRegister(baseApi, jwtToken, body) {
+  postCameraRegister(baseApi, jwtToken, body) {
     return axios.post(
-      baseApi + `api/cctv/register`,
+      baseApi + `api/camera/register`,
       body,
       this.httpHeader(jwtToken)
     );
   }
 
-  postCCTVUpdate(baseApi, jwtToken, body) {
+  postCameraUpdate(baseApi, jwtToken, body) {
     return axios.post(
-      baseApi + `api/cctv/update`,
+      baseApi + `api/camera/update`,
       body,
       this.httpHeader(jwtToken)
     );
   }
 }
-const CCTVServices = new CCTVService();
-export { CCTVServices as default };
+const CameraServices = new CameraService();
+export { CameraServices as default };

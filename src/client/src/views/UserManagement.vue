@@ -1,7 +1,7 @@
 <template>
   <div>
     <Sidebar />
-    <Header :title="'Manajemen Warga'" />
+    <Header :title="'Manajemen User'" />
     <div style="margin-left: 50px">
       <b-container fluid>
         <b-row class="mx-1 mt-4" align-h="end">
@@ -12,78 +12,108 @@
               class="mx-2"
               @click="clear(), showModal()"
             >
-              <i class="fas fa-people-group mr-1" />
-              Tambah Warga
+              <i class="fas fa-user-plus mr-1"> </i>
+              Tambah User
             </b-button>
             <b-modal
-              :id="'new-warga'"
+              id="new-user"
               ref="modal"
               v-model="modalShow"
               hide-header-close
-              title="Tambah Warga"
+              title="Tambah User"
               ok-title="Simpan"
               @ok="handleOk"
             >
               <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
+                  label="Nama Lengkap :"
+                  label-for="form-user-fullname"
+                  invalid-feedback="Nama Lengkap Wajib Diisi"
+                  :state="userFullnameState"
+                >
+                  <b-form-input
+                    size="sm"
+                    class="mb-3"
+                    id="form-user-fullname"
+                    placeholder="Masukkan Nama Lengkap"
+                    v-model="userBody.fullname"
+                    :state="userFullnameState"
+                    required
+                  >
+                  </b-form-input>
+                </b-form-group>
+
+                <b-form-group
                   label="Username :"
-                  label-for="form-username"
+                  label-for="form-user-name"
                   invalid-feedback="Username Wajib Diisi"
-                  :state="wargaUsernameState"
+                  :state="userNameState"
                 >
                   <b-form-input
                     size="sm"
                     class="mb-3"
-                    id="form-username"
+                    id="form-user-name"
                     placeholder="Masukkan Username"
-                    v-model="wargaBody.username"
-                    :state="wargaUsernameState"
+                    v-model="userBody.username"
+                    :state="userNameState"
                     required
-                  ></b-form-input>
-                </b-form-group>
-
-                <b-form-group label="Password :" label-for="form-password">
-                  <b-form-input
-                    size="sm"
-                    class="mb-3"
-                    id="form-password"
-                    placeholder="Masukkan Password"
-                    v-model="wargaBody.password"
-                  ></b-form-input>
+                  >
+                  </b-form-input>
                 </b-form-group>
 
                 <b-form-group
-                  label="Nama :"
-                  label-for="form-ip-cctv"
-                  invalid-feedback="Nama Warga Wajib Diisi"
-                  :state="fullnameState"
+                  label="Password :"
+                  label-for="form-user-password"
+                  invalid-feedback="Password Wajib Diisi"
+                  :state="userPasswordState"
                 >
-                  <b-form-input
-                    size="sm"
-                    class="mb-3"
-                    id="form-ip-cctv"
-                    placeholder="Masukkan Nama Warga"
-                    v-model="wargaBody.fullname"
-                    :state="fullnameState"
-                    required
-                  ></b-form-input>
+                  <b-input-group size="sm" class="mb-3">
+                    <b-form-input
+                      size="sm"
+                      class="login-input-password"
+                      id="form-user-password"
+                      placeholder="Masukkan Password"
+                      v-model="userBody.password"
+                      :state="userPasswordState"
+                      :type="showPassword ? 'text' : 'password'"
+                      required
+                    >
+                    </b-form-input>
+                    <b-input-group-append>
+                      <span
+                        class="input-group-text input-append-icon"
+                        @click="showPassword = !showPassword"
+                      >
+                        <b-icon
+                          :icon="showPassword ? 'eye-slash-fill' : 'eye-fill'"
+                        >
+                        </b-icon>
+                      </span>
+                    </b-input-group-append>
+                  </b-input-group>
                 </b-form-group>
 
                 <b-form-group
-                  label="Nomor Rumah :"
-                  label-for="form-name-cctv"
-                  invalid-feedback="Nomor Rumah Wajib Diisi"
-                  :state="addressState"
+                  class="mb-3"
+                  label="Status :"
+                  v-slot="{ ariaDescribedby }"
                 >
-                  <b-form-input
-                    size="sm"
-                    class="mb-3"
-                    id="form-name-cctv"
-                    placeholder="Masukkan Nomor Rumah"
-                    v-model="wargaBody.address"
-                    :state="addressState"
-                    required
-                  ></b-form-input>
+                  <b-form-radio
+                    v-model="userBody.active"
+                    :aria-describedby="ariaDescribedby"
+                    name="radio-active-user"
+                    :value="true"
+                  >
+                    Aktif
+                  </b-form-radio>
+                  <b-form-radio
+                    v-model="userBody.active"
+                    :aria-describedby="ariaDescribedby"
+                    name="radio-active-user"
+                    :value="false"
+                  >
+                    Tidak Aktif
+                  </b-form-radio>
                 </b-form-group>
               </form>
             </b-modal>
@@ -96,7 +126,7 @@
           :columns="3"
           :table-props="{ bordered: true, striped: true }"
         ></b-skeleton-table>
-        <TableListWarga
+        <TableListUser
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -113,24 +143,27 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListWarga from "../components/TableListWarga";
-import WargaService from "../services/WargaServices";
+import TableListUser from "../components/TableListUser";
+import UserService from "../../services/UserServices";
 
 export default {
-  name: "ManajemenWarga",
-  components: { Sidebar, Header, TableListWarga },
+  name: "UserManagement",
+  components: { Sidebar, Header, TableListUser },
   data() {
     return {
       modalShow: false,
-      fullnameState: null,
-      addressState: null,
+      userFullnameState: null,
+      userNameState: null,
+      userPasswordState: null,
+      showPassword: false,
 
-      wargaBody: {
+      userBody: {
         id: 0,
         fullname: "",
-        address: "",
         username: "",
         password: "",
+        role: "Administrator",
+        active: true,
       },
 
       currentPage: 1,
@@ -139,20 +172,16 @@ export default {
       items: [],
       fields: [
         {
-          key: "username",
-          label: "USERNAME",
-        },
-        {
           key: "fullname",
           label: "NAMA",
         },
         {
-          key: "address",
-          label: "NO RUMAH",
+          key: "username",
+          label: "USERNAME",
         },
         {
-          key: "cardid",
-          label: "NO KARTU",
+          key: "active",
+          label: "STATUS",
         },
         { key: "action", label: "ACTION" },
       ],
@@ -166,15 +195,16 @@ export default {
   methods: {
     async onInit() {
       await this.checkLogin();
-      await this.getWargaList();
+      await this.getUserList();
     },
 
     async clear() {
-      this.wargaBody = {
+      this.userBody = {
         id: 0,
-        wargaName: "",
-        noHouse: "",
-        noCard: "",
+        fullname: "",
+        username: "",
+        password: "",
+        active: false,
       };
     },
 
@@ -192,20 +222,21 @@ export default {
         return;
       } else {
         this.modalShow = false;
-        this.postWargaRegister();
+        this.postUserRegister();
       }
     },
 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
-      this.fullnameState = valid;
-      this.addressState = valid;
+      this.userFullnameState = valid;
+      this.userNameState = valid;
+      this.userPasswordState = valid;
       return valid;
     },
 
-    async getWargaList() {
+    async getUserList() {
       this.loadingTableList = false;
-      WargaService.getWargaList(this.baseApi, this.jwtToken)
+      UserService.getUserList(this.baseApi, this.jwtToken)
         .then((response) => {
           // console.log(response);
           this.loadingTableList = true;
@@ -237,21 +268,17 @@ export default {
         });
     },
 
-    async postWargaRegister() {
+    async postUserRegister() {
       this.loadingTableList = false;
-      WargaService.postWargaRegister(
-        this.baseApi,
-        this.jwtToken,
-        this.wargaBody
-      )
+      UserService.postUserRegister(this.baseApi, this.jwtToken, this.userBody)
         .then((response) => {
           if (response.data.success == true) {
             Swal.fire({
               icon: "success",
               title: "Success !",
               text:
-                "Warga " +
-                this.wargaBody.wargaName +
+                "User " +
+                this.userBody.fullname +
                 " have been successfully Added",
             });
             this.getUserList();
@@ -285,4 +312,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.login-input-password {
+  border-right: none !important;
+}
+</style>

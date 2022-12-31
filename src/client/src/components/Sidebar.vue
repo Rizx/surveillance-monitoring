@@ -20,8 +20,8 @@ export default {
           hiddenOnCollapse: true,
         },
         {
-          href: "/cctv",
-          title: "CCTV",
+          href: "/camera",
+          title: "Camera",
           icon: "fa fa-video",
         },
         {
@@ -30,8 +30,8 @@ export default {
           icon: "fa fa-arrow-right-arrow-left",
         },
         {
-          href: "/manajemen-cctv",
-          title: "Manajemen CCTV",
+          href: "/manajemen-camera",
+          title: "Manajemen Camera",
           icon: "fa fa-gears",
         },
         {

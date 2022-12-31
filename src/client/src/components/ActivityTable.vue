@@ -118,7 +118,7 @@ import Swal from "sweetalert2";
 import WargaService from "../services/WargaServices";
 
 export default {
-  name: "TableListAktivitas",
+  name: "TableListActivity",
   props: {
     items: Array,
     fields: Array,

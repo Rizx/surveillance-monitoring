@@ -4,7 +4,7 @@
       <b-card class="center_card">
         <b-row align-h="between" align-v="center" class="mx-1 my-2">
           <b-form-select v-model="videoSelected" style="width: 150px">
-            <option :value="null" disabled>-- Pilih CCTV --</option>
+            <option :value="null" disabled>-- Pilih Camera --</option>
             <option
               v-for="video in videoList"
               :value="video.videoUrl"
@@ -48,7 +48,7 @@
 
 <script>
 import Swal from "sweetalert2";
-import CCTVService from "../services/CCTVServices";
+import CameraService from "../services/CameraServices";
 
 export default {
   name: "Video",
@@ -65,12 +65,12 @@ export default {
 
   methods: {
     async onInit() {
-      await this.getCCTVCameraList();
+      await this.getCameraCameraList();
     },
 
-    async getCCTVCameraList() {
+    async getCameraCameraList() {
       this.loadingTableList = false;
-      CCTVService.getCCTVCameraList(this.baseApi, this.jwtToken)
+      CameraService.getCameraCameraList(this.baseApi, this.jwtToken)
         .then((response) => {
           // console.log(response);
           this.loadingList = true;

@@ -1,11 +1,11 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Login from "../views/Login";
-import CCTV from "../views/CCTV";
-import Aktivitas from "../views/Aktivitas";
-import ManajemenCCTV from "../views/ManajemenCCTV";
-import ManajemenWarga from "../views/ManajemenWarga";
-import ManajemenUser from "../views/ManajemenUser";
+import Camera from "../views/Camera";
+import Activity from "../views/Activity";
+import CameraManagement from "../views/CameraManagement";
+import PeopleManagement from "../views/PeopleManagement";
+import UserManagement from "../views/UserManagement";
 
 Vue.use(VueRouter);
 
@@ -16,29 +16,29 @@ const routes = [
     component: Login,
   },
   {
-    path: "/cctv",
-    name: "CCTV",
-    component: CCTV,
+    path: "/camera",
+    name: "Camera",
+    component: Camera,
   },
   {
     path: "/aktivitas",
-    name: "Aktivitas",
-    component: Aktivitas,
+    name: "Activity",
+    component: Activity,
   },
   {
-    path: "/manajemen-cctv",
-    name: "ManajemenCCTV",
-    component: ManajemenCCTV,
+    path: "/manajemen-camera",
+    name: "CameraManagement",
+    component: CameraManagement,
   },
   {
     path: "/manajemen-warga",
-    name: "ManajemenWarga",
-    component: ManajemenWarga,
+    name: "PeopleManagement",
+    component: PeopleManagement,
   },
   {
     path: "/manajemen-user",
-    name: "ManajemenUser",
-    component: ManajemenUser,
+    name: "UserManagement",
+    component: UserManagement,
   },
 ];
 

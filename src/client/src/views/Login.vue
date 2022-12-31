@@ -130,7 +130,7 @@ export default {
             this.$session.set("USER_ROLE", response.data.data.role);
             this.$session.set("USER_JWT_TOKEN", response.data.data.token);
             this.$session.set("isLogin", true);
-            this.$router.push("/cctv");
+            this.$router.push("/camera");
           } else {
             this.loadingSubmit = false;
             Swal.fire({

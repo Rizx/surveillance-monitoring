@@ -21,30 +21,30 @@
           class="mr-1"
           v-b-tooltip.hover
           title="Edit"
-          v-b-modal="'edit-cctv-modal-' + row.item.id"
+          v-b-modal="'edit-camera-modal-' + row.item.id"
         >
           <i class="fas fa-pen"> </i>
         </b-button>
 
         <b-modal
-          :id="'edit-cctv-modal-' + row.item.id"
+          :id="'edit-camera-modal-' + row.item.id"
           hide-header-close
-          :title="'Edit CCTV - ' + row.item.name_camera"
+          :title="'Edit Camera - ' + row.item.name_camera"
           ok-title="Simpan"
-          @ok="postCCTVUpdate(row.item)"
+          @ok="postCameraUpdate(row.item)"
         >
           <form ref="form">
             <b-form-group
               label="IP :"
-              label-for="form-ip-cctv"
-              invalid-feedback="IP CCTV Wajib Diisi"
+              label-for="form-ip-camera"
+              invalid-feedback="IP Camera Wajib Diisi"
               :state="cameraIpState"
             >
               <b-form-input
                 size="sm"
                 class="mb-3"
-                id="form-ip-cctv"
-                placeholder="Masukkan IP CCTV"
+                id="form-ip-camera"
+                placeholder="Masukkan IP Camera"
                 v-model="row.item.ip_camera"
                 :state="cameraIpState"
                 required
@@ -54,15 +54,15 @@
 
             <b-form-group
               label="Nama :"
-              label-for="form-name-cctv"
-              invalid-feedback="Nama CCTV Wajib Diisi"
+              label-for="form-name-camera"
+              invalid-feedback="Nama Camera Wajib Diisi"
               :state="cameraNameState"
             >
               <b-form-input
                 size="sm"
                 class="mb-3"
-                id="form-name-cctv"
-                placeholder="Masukkan Nama CCTV"
+                id="form-name-camera"
+                placeholder="Masukkan Nama Camera"
                 v-model="row.item.name_camera"
                 :state="cameraNameState"
                 required
@@ -70,23 +70,23 @@
               </b-form-input>
             </b-form-group>
 
-            <b-form-group label="Username :" label-for="form-username-cctv">
+            <b-form-group label="Username :" label-for="form-username-camera">
               <b-form-input
                 size="sm"
                 class="mb-3"
-                id="form-username-cctv"
-                placeholder="Masukkan Username CCTV"
+                id="form-username-camera"
+                placeholder="Masukkan Username Camera"
                 v-model="row.item.cameraUsername"
               >
               </b-form-input>
             </b-form-group>
 
-            <b-form-group label="Password :" label-for="form-password-cctv">
+            <b-form-group label="Password :" label-for="form-password-camera">
               <b-form-input
                 size="sm"
                 class="mb-3"
-                id="form-password-cctv"
-                placeholder="Masukkan Password CCTV"
+                id="form-password-camera"
+                placeholder="Masukkan Password Camera"
                 v-model="row.item.cameraPassword"
               >
               </b-form-input>
@@ -100,10 +100,10 @@
 
 <script>
 import Swal from "sweetalert2";
-import CCTVService from "../services/CCTVServices";
+import CameraService from "../services/CameraServices";
 
 export default {
-  name: "TableListCCTV",
+  name: "TableListCamera",
   props: {
     items: Array,
     fields: Array,
@@ -151,9 +151,9 @@ export default {
       return valid;
     },
 
-    postCCTVUpdate(item) {
+    postCameraUpdate(item) {
       this.loadingTableList = true;
-      CCTVService.postCCTVUpdate(this.baseApi, this.jwtToken, {
+      CameraService.postCameraUpdate(this.baseApi, this.jwtToken, {
         id: item.id,
         ip_camera: item.ip_camera,
         name_camera: item.name_camera,
@@ -166,7 +166,7 @@ export default {
             Swal.fire({
               icon: "success",
               title: "Success !",
-              text: "CCTV " + item.name_camera + " have been successfully Edited",
+              text: "Camera " + item.name_camera + " have been successfully Edited",
             });
           }
         })

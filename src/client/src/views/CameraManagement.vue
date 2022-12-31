@@ -1,10 +1,10 @@
 <template>
   <div>
     <Sidebar />
-    <Header :title="'Manajemen User'" />
+    <Header :title="'Manajemen Camera'" />
     <div style="margin-left: 50px">
       <b-container fluid>
-        <b-row class="mx-1 mt-4" align-h="end">
+        <!-- <b-row class="mx-1 mt-4" align-h="end">
           <div>
             <b-button
               variant="info"
@@ -12,121 +12,89 @@
               class="mx-2"
               @click="clear(), showModal()"
             >
-              <i class="fas fa-user-plus mr-1"> </i>
-              Tambah User
+              <i class="fas fa-video mr-1" />
+              Tambah Camera
             </b-button>
             <b-modal
-              id="new-user"
+              :id="'new-camera'"
               ref="modal"
               v-model="modalShow"
               hide-header-close
-              title="Tambah User"
+              title="Tambah Camera"
               ok-title="Simpan"
               @ok="handleOk"
             >
               <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                  label="Nama Lengkap :"
-                  label-for="form-user-fullname"
-                  invalid-feedback="Nama Lengkap Wajib Diisi"
-                  :state="userFullnameState"
+                  label="IP :"
+                  label-for="form-ip-camera"
+                  invalid-feedback="IP Camera Wajib Diisi"
+                  :state="cameraIpState"
                 >
                   <b-form-input
                     size="sm"
                     class="mb-3"
-                    id="form-user-fullname"
-                    placeholder="Masukkan Nama Lengkap"
-                    v-model="userBody.fullname"
-                    :state="userFullnameState"
+                    id="form-ip-camera"
+                    placeholder="Masukkan IP Camera"
+                    v-model="cameraBody.cameraIp"
+                    :state="cameraIpState"
                     required
                   >
                   </b-form-input>
                 </b-form-group>
 
                 <b-form-group
-                  label="Username :"
-                  label-for="form-user-name"
-                  invalid-feedback="Username Wajib Diisi"
-                  :state="userNameState"
+                  label="Nama :"
+                  label-for="form-name-camera"
+                  invalid-feedback="Nama Camera Wajib Diisi"
+                  :state="cameraNameState"
                 >
                   <b-form-input
                     size="sm"
                     class="mb-3"
-                    id="form-user-name"
-                    placeholder="Masukkan Username"
-                    v-model="userBody.username"
-                    :state="userNameState"
+                    id="form-name-camera"
+                    placeholder="Masukkan Nama Camera"
+                    v-model="cameraBody.cameraName"
+                    :state="cameraNameState"
                     required
                   >
                   </b-form-input>
                 </b-form-group>
 
-                <b-form-group
-                  label="Password :"
-                  label-for="form-user-password"
-                  invalid-feedback="Password Wajib Diisi"
-                  :state="userPasswordState"
-                >
-                  <b-input-group size="sm" class="mb-3">
-                    <b-form-input
-                      size="sm"
-                      class="login-input-password"
-                      id="form-user-password"
-                      placeholder="Masukkan Password"
-                      v-model="userBody.password"
-                      :state="userPasswordState"
-                      :type="showPassword ? 'text' : 'password'"
-                      required
-                    >
-                    </b-form-input>
-                    <b-input-group-append>
-                      <span
-                        class="input-group-text input-append-icon"
-                        @click="showPassword = !showPassword"
-                      >
-                        <b-icon
-                          :icon="showPassword ? 'eye-slash-fill' : 'eye-fill'"
-                        >
-                        </b-icon>
-                      </span>
-                    </b-input-group-append>
-                  </b-input-group>
+                <b-form-group label="Username :" label-for="form-username-camera">
+                  <b-form-input
+                    size="sm"
+                    class="mb-3"
+                    id="form-username-camera"
+                    placeholder="Masukkan Username Camera"
+                    v-model="cameraBody.cameraUsername"
+                  >
+                  </b-form-input>
                 </b-form-group>
 
-                <b-form-group
-                  class="mb-3"
-                  label="Status :"
-                  v-slot="{ ariaDescribedby }"
-                >
-                  <b-form-radio
-                    v-model="userBody.active"
-                    :aria-describedby="ariaDescribedby"
-                    name="radio-active-user"
-                    :value="true"
+                <b-form-group label="Password :" label-for="form-password-camera">
+                  <b-form-input
+                    size="sm"
+                    class="mb-3"
+                    id="form-password-camera"
+                    placeholder="Masukkan Password Camera"
+                    v-model="cameraBody.cameraPassword"
                   >
-                    Aktif
-                  </b-form-radio>
-                  <b-form-radio
-                    v-model="userBody.active"
-                    :aria-describedby="ariaDescribedby"
-                    name="radio-active-user"
-                    :value="false"
-                  >
-                    Tidak Aktif
-                  </b-form-radio>
+                  </b-form-input>
                 </b-form-group>
               </form>
             </b-modal>
           </div>
-        </b-row>
+        </b-row> -->
         <b-skeleton-table
           class="mt-3"
           v-if="!loadingTableList"
           :rows="totalRows"
           :columns="3"
           :table-props="{ bordered: true, striped: true }"
-        ></b-skeleton-table>
-        <TableListUser
+        >
+        </b-skeleton-table>
+        <TableListCamera
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -143,47 +111,51 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListUser from "../components/TableListUser";
-import UserService from "../services/UserServices";
+import TableListCamera from "../components/TableListCamera";
+import CameraService from "../services/CameraServices";
 
 export default {
-  name: "ManajemenUser",
-  components: { Sidebar, Header, TableListUser },
+  name: "CameraManagement",
+  components: { Sidebar, Header, TableListCamera },
   data() {
     return {
       modalShow: false,
-      userFullnameState: null,
-      userNameState: null,
-      userPasswordState: null,
-      showPassword: false,
+      cameraIpState: null,
+      cameraNameState: null,
 
-      userBody: {
+      cameraBody: {
         id: 0,
-        fullname: "",
-        username: "",
-        password: "",
-        role: "Administrator",
-        active: true,
+        cameraIp: "",
+        cameraName: "",
+        cameraUsername: "",
+        cameraPassword: "",
       },
 
       currentPage: 1,
-      perPage: 20,
+      perPage: 100,
       totalRows: 1,
       items: [],
       fields: [
         {
-          key: "fullname",
+          key: "name",
           label: "NAMA",
+        },
+        {
+          key: "model",
+          label: "Model",
+        },
+        {
+          key: "ipAddress",
+          label: "IP ADDRESS",
         },
         {
           key: "username",
           label: "USERNAME",
         },
         {
-          key: "active",
-          label: "STATUS",
+          key: "password",
+          label: "PASSWORD",
         },
-        { key: "action", label: "ACTION" },
       ],
     };
   },
@@ -195,16 +167,16 @@ export default {
   methods: {
     async onInit() {
       await this.checkLogin();
-      await this.getUserList();
+      await this.getCameraList();
     },
 
     async clear() {
-      this.userBody = {
+      this.cameraBody = {
         id: 0,
-        fullname: "",
-        username: "",
-        password: "",
-        active: false,
+        cameraIp: "",
+        cameraName: "",
+        cameraUsername: "",
+        cameraPassword: "",
       };
     },
 
@@ -222,21 +194,19 @@ export default {
         return;
       } else {
         this.modalShow = false;
-        this.postUserRegister();
       }
     },
 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
-      this.userFullnameState = valid;
-      this.userNameState = valid;
-      this.userPasswordState = valid;
+      this.cameraIpState = valid;
+      this.cameraNameState = valid;
       return valid;
     },
 
-    async getUserList() {
+    async getCameraList() {
       this.loadingTableList = false;
-      UserService.getUserList(this.baseApi, this.jwtToken)
+      CameraService.getCameraList(this.baseApi, this.jwtToken)
         .then((response) => {
           // console.log(response);
           this.loadingTableList = true;
@@ -268,17 +238,17 @@ export default {
         });
     },
 
-    async postUserRegister() {
+    async postCameraRegister() {
       this.loadingTableList = false;
-      UserService.postUserRegister(this.baseApi, this.jwtToken, this.userBody)
+      CameraService.postCameraRegister(this.baseApi, this.jwtToken, this.userBody)
         .then((response) => {
           if (response.data.success == true) {
             Swal.fire({
               icon: "success",
               title: "Success !",
               text:
-                "User " +
-                this.userBody.fullname +
+                "Camera " +
+                this.cameraBody.cameraName +
                 " have been successfully Added",
             });
             this.getUserList();
@@ -312,8 +282,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.login-input-password {
-  border-right: none !important;
-}
-</style>
+<style scoped></style>

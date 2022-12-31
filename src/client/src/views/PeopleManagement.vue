@@ -1,10 +1,10 @@
 <template>
   <div>
     <Sidebar />
-    <Header :title="'Manajemen CCTV'" />
+    <Header :title="'Manajemen Warga'" />
     <div style="margin-left: 50px">
       <b-container fluid>
-        <!-- <b-row class="mx-1 mt-4" align-h="end">
+        <b-row class="mx-1 mt-4" align-h="end">
           <div>
             <b-button
               variant="info"
@@ -12,89 +12,91 @@
               class="mx-2"
               @click="clear(), showModal()"
             >
-              <i class="fas fa-video mr-1" />
-              Tambah CCTV
+              <i class="fas fa-people-group mr-1" />
+              Tambah Warga
             </b-button>
             <b-modal
-              :id="'new-cctv'"
+              :id="'new-warga'"
               ref="modal"
               v-model="modalShow"
               hide-header-close
-              title="Tambah CCTV"
+              title="Tambah Warga"
               ok-title="Simpan"
               @ok="handleOk"
             >
               <form ref="form" @submit.stop.prevent="handleSubmit">
                 <b-form-group
-                  label="IP :"
-                  label-for="form-ip-cctv"
-                  invalid-feedback="IP CCTV Wajib Diisi"
-                  :state="cameraIpState"
+                  label="Username :"
+                  label-for="form-username"
+                  invalid-feedback="Username Wajib Diisi"
+                  :state="wargaUsernameState"
                 >
                   <b-form-input
                     size="sm"
                     class="mb-3"
-                    id="form-ip-cctv"
-                    placeholder="Masukkan IP CCTV"
-                    v-model="cameraBody.cameraIp"
-                    :state="cameraIpState"
+                    id="form-username"
+                    placeholder="Masukkan Username"
+                    v-model="wargaBody.username"
+                    :state="wargaUsernameState"
                     required
-                  >
-                  </b-form-input>
+                  ></b-form-input>
+                </b-form-group>
+
+                <b-form-group label="Password :" label-for="form-password">
+                  <b-form-input
+                    size="sm"
+                    class="mb-3"
+                    id="form-password"
+                    placeholder="Masukkan Password"
+                    v-model="wargaBody.password"
+                  ></b-form-input>
                 </b-form-group>
 
                 <b-form-group
                   label="Nama :"
-                  label-for="form-name-cctv"
-                  invalid-feedback="Nama CCTV Wajib Diisi"
-                  :state="cameraNameState"
+                  label-for="form-ip-camera"
+                  invalid-feedback="Nama Warga Wajib Diisi"
+                  :state="fullnameState"
                 >
                   <b-form-input
                     size="sm"
                     class="mb-3"
-                    id="form-name-cctv"
-                    placeholder="Masukkan Nama CCTV"
-                    v-model="cameraBody.cameraName"
-                    :state="cameraNameState"
+                    id="form-ip-camera"
+                    placeholder="Masukkan Nama Warga"
+                    v-model="wargaBody.fullname"
+                    :state="fullnameState"
                     required
-                  >
-                  </b-form-input>
+                  ></b-form-input>
                 </b-form-group>
 
-                <b-form-group label="Username :" label-for="form-username-cctv">
+                <b-form-group
+                  label="Nomor Rumah :"
+                  label-for="form-name-camera"
+                  invalid-feedback="Nomor Rumah Wajib Diisi"
+                  :state="addressState"
+                >
                   <b-form-input
                     size="sm"
                     class="mb-3"
-                    id="form-username-cctv"
-                    placeholder="Masukkan Username CCTV"
-                    v-model="cameraBody.cameraUsername"
-                  >
-                  </b-form-input>
-                </b-form-group>
-
-                <b-form-group label="Password :" label-for="form-password-cctv">
-                  <b-form-input
-                    size="sm"
-                    class="mb-3"
-                    id="form-password-cctv"
-                    placeholder="Masukkan Password CCTV"
-                    v-model="cameraBody.cameraPassword"
-                  >
-                  </b-form-input>
+                    id="form-name-camera"
+                    placeholder="Masukkan Nomor Rumah"
+                    v-model="wargaBody.address"
+                    :state="addressState"
+                    required
+                  ></b-form-input>
                 </b-form-group>
               </form>
             </b-modal>
           </div>
-        </b-row> -->
+        </b-row>
         <b-skeleton-table
           class="mt-3"
           v-if="!loadingTableList"
           :rows="totalRows"
           :columns="3"
           :table-props="{ bordered: true, striped: true }"
-        >
-        </b-skeleton-table>
-        <TableListCCTV
+        ></b-skeleton-table>
+        <TableListWarga
           v-if="loadingTableList"
           :items="items"
           :fields="fields"
@@ -111,51 +113,48 @@
 import Swal from "sweetalert2";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import TableListCCTV from "../components/TableListCCTV";
-import CCTVService from "../services/CCTVServices";
+import TableListWarga from "../components/TableListWarga";
+import WargaService from "../services/WargaServices";
 
 export default {
-  name: "ManajemenCCTV",
-  components: { Sidebar, Header, TableListCCTV },
+  name: "PeopleManagement",
+  components: { Sidebar, Header, TableListWarga },
   data() {
     return {
       modalShow: false,
-      cameraIpState: null,
-      cameraNameState: null,
+      fullnameState: null,
+      addressState: null,
 
-      cameraBody: {
+      wargaBody: {
         id: 0,
-        cameraIp: "",
-        cameraName: "",
-        cameraUsername: "",
-        cameraPassword: "",
+        fullname: "",
+        address: "",
+        username: "",
+        password: "",
       },
 
       currentPage: 1,
-      perPage: 100,
+      perPage: 20,
       totalRows: 1,
       items: [],
       fields: [
-        {
-          key: "name",
-          label: "NAMA",
-        },
-        {
-          key: "model",
-          label: "Model",
-        },
-        {
-          key: "ipAddress",
-          label: "IP ADDRESS",
-        },
         {
           key: "username",
           label: "USERNAME",
         },
         {
-          key: "password",
-          label: "PASSWORD",
+          key: "fullname",
+          label: "NAMA",
         },
+        {
+          key: "address",
+          label: "NO RUMAH",
+        },
+        {
+          key: "cardid",
+          label: "NO KARTU",
+        },
+        { key: "action", label: "ACTION" },
       ],
     };
   },
@@ -167,16 +166,15 @@ export default {
   methods: {
     async onInit() {
       await this.checkLogin();
-      await this.getCCTVList();
+      await this.getWargaList();
     },
 
     async clear() {
-      this.cameraBody = {
+      this.wargaBody = {
         id: 0,
-        cameraIp: "",
-        cameraName: "",
-        cameraUsername: "",
-        cameraPassword: "",
+        wargaName: "",
+        noHouse: "",
+        noCard: "",
       };
     },
 
@@ -194,19 +192,20 @@ export default {
         return;
       } else {
         this.modalShow = false;
+        this.postWargaRegister();
       }
     },
 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
-      this.cameraIpState = valid;
-      this.cameraNameState = valid;
+      this.fullnameState = valid;
+      this.addressState = valid;
       return valid;
     },
 
-    async getCCTVList() {
+    async getWargaList() {
       this.loadingTableList = false;
-      CCTVService.getCCTVList(this.baseApi, this.jwtToken)
+      WargaService.getWargaList(this.baseApi, this.jwtToken)
         .then((response) => {
           // console.log(response);
           this.loadingTableList = true;
@@ -238,17 +237,21 @@ export default {
         });
     },
 
-    async postCCTVRegister() {
+    async postWargaRegister() {
       this.loadingTableList = false;
-      CCTVService.postCCTVRegister(this.baseApi, this.jwtToken, this.userBody)
+      WargaService.postWargaRegister(
+        this.baseApi,
+        this.jwtToken,
+        this.wargaBody
+      )
         .then((response) => {
           if (response.data.success == true) {
             Swal.fire({
               icon: "success",
               title: "Success !",
               text:
-                "CCTV " +
-                this.cameraBody.cameraName +
+                "Warga " +
+                this.wargaBody.wargaName +
                 " have been successfully Added",
             });
             this.getUserList();
@@ -282,4 +285,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>
