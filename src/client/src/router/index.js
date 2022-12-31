@@ -4,7 +4,7 @@ import Login from "../views/Login";
 import Camera from "../views/Camera";
 import Activity from "../views/Activity";
 import CameraManagement from "../views/CameraManagement";
-import PeopleManagement from "../views/PeopleManagement";
+import MemberManagement from "../views/MemberManagement";
 import UserManagement from "../views/UserManagement";
 
 Vue.use(VueRouter);
@@ -32,8 +32,8 @@ const routes = [
   },
   {
     path: "/manajemen-warga",
-    name: "PeopleManagement",
-    component: PeopleManagement,
+    name: "MemberManagement",
+    component: MemberManagement,
   },
   {
     path: "/manajemen-user",

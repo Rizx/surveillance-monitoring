@@ -115,7 +115,7 @@
 
 <script>
 import Swal from "sweetalert2";
-import PeopleService from "../services/PeopleServices";
+import MemberService from "../services/MemberServices";
 
 export default {
   name: "ActivityTable",
@@ -177,7 +177,7 @@ export default {
 
     async getWargaList() {
       this.loadingTableList = false;
-      PeopleService.getWargaList(this.baseApi, this.jwtToken)
+      MemberService.getWargaList(this.baseApi, this.jwtToken)
         .then((response) => {
           console.log(response);
           this.options = response.data.data;
@@ -209,7 +209,7 @@ export default {
 
     postTransactionRegister(item) {
       this.loadingTableList = true;
-      PeopleService.postCardRegister(this.baseApi, this.jwtToken, {
+      MemberService.postCardRegister(this.baseApi, this.jwtToken, {
         id: item.id,
         cardid: item.cardid,
         username: item.username,

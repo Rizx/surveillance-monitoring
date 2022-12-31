@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class PeopleService {
+class MemberService {
   httpHeader(jwtToken) {
     return {
       headers: {
@@ -21,5 +21,5 @@ class PeopleService {
     );
   }
 }
-const PeopleServices = new PeopleService();
-export { PeopleServices as default };
+const MemberServices = new MemberService();
+export { MemberServices as default };
