@@ -21,7 +21,7 @@ export default {
         },
         {
           href: "/camera",
-          title: "Camera",
+          title: "Live Streaming",
           icon: "fa fa-video",
         },
         {
@@ -52,6 +52,6 @@ export default {
 
 <style scoped>
 .v-sidebar-menu {
-    background-color: #11101d;
+  background-color: #11101d;
 }
 </style>

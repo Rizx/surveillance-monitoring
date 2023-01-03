@@ -1,7 +1,7 @@
 <template>
   <div>
     <Sidebar />
-    <Header :title="'Camera Monitoring'" />
+    <Header :title="'Live Streaming'" />
     <div style="margin-left: 50px">
       <b-col style="text-align: start">
         <b-row class="p-3">
