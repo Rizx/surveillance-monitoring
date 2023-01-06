@@ -123,7 +123,9 @@ namespace API.Controllers
                 return BadRequest(Result.Fail("Member Unregistered"));
             }
 
-            if(!entity.CardId.Contains(request.CardId))
+            if(entity.CardId is null)
+                entity.CardId = request.CardId;
+            else if(!entity.CardId.Contains(request.CardId))
                 entity.CardId += $"|{request.CardId}";
 
             var result = await _memberRepository.Update(entity);
