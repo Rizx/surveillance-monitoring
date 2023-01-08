@@ -31,7 +31,12 @@
               allowfullscreen
               aspect="16by9"
             /> -->
-            <b-img :src="videoSelected" fluid-grow></b-img>
+            <b-img
+              :src="videoSelected + '?' + Date.now()"
+              fluid-grow
+              v-if="renderComponent"
+              alt=""
+            ></b-img>
           </b-modal>
         </b-row>
         <!-- <b-embed
@@ -40,7 +45,12 @@
           allowfullscreen
           aspect="16by9"
         ></b-embed> -->
-        <b-img :src="videoSelected" fluid-grow></b-img>
+        <b-img
+          :src="videoSelected + '?' + Date.now()"
+          fluid-grow
+          v-if="renderComponent"
+          alt=""
+        ></b-img>
       </b-card>
     </b-overlay>
   </div>
@@ -54,6 +64,8 @@ export default {
   name: "Video",
   data() {
     return {
+      auto: 5000,
+      renderComponent: true,
       videoSelected: null,
       videoList: [],
     };
@@ -66,6 +78,7 @@ export default {
   methods: {
     async onInit() {
       await this.getCameraCameraList();
+      this.ForcesUpdateComponent();
     },
 
     async getCameraCameraList() {
@@ -100,6 +113,15 @@ export default {
           }
         });
     },
+
+    ForcesUpdateComponent() {
+      this.renderComponent = false;
+
+      setTimeout(() => this.ForcesUpdateComponent(), this.auto);
+      this.$nextTick(() => {
+        this.renderComponent = true;
+      });
+    },
   },
 };
 </script>
@@ -110,6 +132,6 @@ export default {
   float: none;
   border: none;
   background-color: #e0e0e0;
-  /* height: 40vh; */
+  min-height: 40vh;
 }
 </style>

@@ -18,14 +18,22 @@
           </v-select> -->
 
           <b-button-group size="sm">
-            <b-button variant="outline-secondary" @click="setSelected(2)"><b-icon icon="bounding-box"/></b-button>
-            <b-button variant="outline-secondary" @click="setSelected(4)"><b-icon icon="grid"/></b-button>
-            <b-button variant="outline-secondary" @click="setSelected(6)"><b-icon icon="grid3x2"/></b-button>
-            <b-button variant="outline-secondary" @click="setSelected(8)"><b-icon icon="grid3x3"/></b-button>
+            <b-button variant="outline-secondary" @click="setSelected(2)">
+              <b-icon icon="bounding-box" />
+            </b-button>
+            <b-button variant="outline-secondary" @click="setSelected(4)">
+              <b-icon icon="grid" />
+            </b-button>
+            <b-button variant="outline-secondary" @click="setSelected(6)">
+              <b-icon icon="grid3x2" />
+            </b-button>
+            <b-button variant="outline-secondary" @click="setSelected(8)">
+              <b-icon icon="grid3x3" />
+            </b-button>
           </b-button-group>
         </b-row>
         <div>
-          <b-row class="remove-padding-margin" align-h="evenly">
+          <b-row class="remove-padding-margin">
             <b-col
               v-for="(gate, index) in optionsSelected"
               :key="index"
@@ -82,7 +90,7 @@ export default {
   },
   methods: {
     async onInit() {
-      // await this.checkLogin();
+      await this.checkLogin();
       this.optionsSelected = 2;
       this.mdSelected = 6;
     },
