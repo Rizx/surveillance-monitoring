@@ -12,7 +12,13 @@ namespace API.Models
         [JsonPropertyName("cardid")]
         public string CardId { set; get; }
 
+        [JsonPropertyName("guest")]
+        public bool Guest { set; get; }
+
         [JsonPropertyName("state")]
         public string State { set; get; }
+
+        [JsonPropertyName("image")]
+        public byte[] Image { set; get; }
     }
 }

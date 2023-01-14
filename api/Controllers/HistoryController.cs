@@ -63,8 +63,18 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] HistoryRequest request)
         {
-            var cameras = (await _cameraRepository.GetCaptureUrl(request.Activity)).ToList();
             var photos = new List<string>();
+
+            if (request.Image?.Length > 0)
+            {
+                var name = GeneratePhotoName(request.Activity, request.CardId, 0);
+                var url = CombineUrl(_serviceSetting.PhotoDirectory, name.Replace('\\', '/'));
+                photos.Add(url);
+                var fullPath = Path.Combine(_serviceSetting.PhotoPath, name);
+                FileService.WriteImage(fullPath, request.Image);
+            }
+            
+            var cameras = (await _cameraRepository.GetCaptureUrl(request.Activity)).ToList();
             for (int counter = 1; counter <= cameras.Count; counter++)
             {
                 var camera = cameras[counter-1];
@@ -81,12 +91,11 @@ namespace API.Controllers
             }
 
             var member = await _memberRepository.GetByCard(request.CardId);
-
             var history = new History(
                 id: 0,
                 request.Activity,
                 request.CardId,
-                name: member?.Fullname,
+                name: request.Guest ? "Tamu" : member?.Fullname,
                 address: member?.Address,
                 request.State,
                 date: DateTime.Now,

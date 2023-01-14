@@ -27,11 +27,19 @@ namespace API.Repositories
                 new { ID });
         }
 
+        public async Task<Camera> Get(string NAME)
+        {
+            using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
+            return await connection.QueryFirstOrDefaultAsync<Camera>(
+                "SELECT * FROM cameras where NAME = :NAME",
+                new { NAME });
+        }
+
         public async Task<IEnumerable<Camera>> GetCaptureUrl(string TYPE)
         {
             using IDbConnection connection = new NpgsqlConnection(_connectionStrings);
             return await connection.QueryAsync<Camera>(
-                "SELECT * FROM cameras where TYPE = :TYPE ORDER BY ID DESC",
+                "SELECT * FROM cameras where TYPE LIKE CONCAT('%',:TYPE,'%') ORDER BY ID DESC",
                 new { TYPE });
         }
 
