@@ -101,7 +101,7 @@ export default {
         if (this.optionsSelected == 2) {
           this.mdSelected = 6;
         } else if (this.optionsSelected == 4) {
-          this.mdSelected = 3;
+          this.mdSelected = 5;
         } else if (this.optionsSelected == 6) {
           this.mdSelected = 4;
         } else if (this.optionsSelected == 8) {

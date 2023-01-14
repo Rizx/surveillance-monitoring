@@ -17,6 +17,7 @@
               {{ video.name }}
             </option>
           </b-form-select>
+          <br />
           <video-player
             class="video-player vjs-custom-skin"
             ref="videoPlayer"
@@ -39,7 +40,7 @@ export default {
   data() {
     return {
       auto: 5000,
-      loadingTableList : false,
+      loadingTableList: false,
       videoSelected: null,
       videoList: [],
       playerOptions: {
@@ -134,17 +135,18 @@ export default {
 
 <style scoped>
 .input_video {
-  width: 600px;
-  height: auto;
-  margin: 0 auto;
-  margin-left: 20px;
-  margin-top: 20px;
+  height: 100%;
 }
+
 .center_card {
   margin: 0 auto;
   float: none;
   border: none;
   background-color: #e0e0e0;
-  min-height: 40vh;
+  /* min-height: 40vh; */
+}
+
+.card-body{
+  padding: 0;
 }
 </style>
