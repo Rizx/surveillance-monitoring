@@ -55,7 +55,7 @@ namespace API.Controllers
             var camera = await _cameraRepository.Get(name);
             var filename = "/videos/" + camera.Name + "/index.m3u8";
             // var command = $"ffmpeg -rtsp_transport tcp -i {camera.VideoUrl} -an -c:v libx264 -crf 21 -preset veryfast -fflags nobuffer -flags low_delay -t 20 -f hls -hls_time 1 -hls_list_size 3 -hls_flags delete_segments {filename}";
-            var command = $"ffmpeg -rtsp_transport tcp -i {camera.VideoUrl} -an -c:v libx264 -crf 21 -preset veryfast -fflags nobuffer -flags low_delay -f hls -hls_time 1 -hls_list_size 3 -hls_flags delete_segments {filename}";
+            var command = $"ffmpeg -rtsp_transport tcp -i '{camera.VideoUrl}' -an -c:v libx264 -crf 21 -preset veryfast -fflags nobuffer -flags low_delay -t 60 -f hls -hls_time 1 -hls_list_size 3 -hls_flags delete_segments {filename}";
             var result = FfmpegService.Start(camera.Name, command);
             if(result)
                 return Ok(filename);
