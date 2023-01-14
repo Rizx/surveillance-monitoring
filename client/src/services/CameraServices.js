@@ -8,6 +8,13 @@ class CameraService {
       },
     };
   }
+  
+  getCameraStreaming(baseApi, params, jwtToken) {
+    return axios.get(
+      baseApi + `api/camera/streaming` + params,
+      this.httpHeader(jwtToken)
+    );
+  }
 
   getCameraCameraList(baseApi, jwtToken) {
     return axios.get(baseApi + `api/camera/videos`, this.httpHeader(jwtToken));

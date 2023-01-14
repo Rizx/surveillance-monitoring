@@ -13,6 +13,10 @@ import "vue-select/dist/vue-select.css";
 import VueSweetalert2 from "vue-sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import VueSession from "vue-session";
+import VideoPlayer from "vue-video-player";
+import "video.js/dist/video-js.css";
+import "vue-video-player/src/custom-theme.css";
+import "videojs-contrib-hls";
 
 Vue.mixin({
   data: function () {
@@ -65,6 +69,7 @@ Vue.mixin({
 });
 
 Vue.config.productionTip = false;
+Vue.use(VideoPlayer);
 Vue.use(VueSession);
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);

@@ -2,55 +2,29 @@
   <div>
     <b-overlay :show="!loadingList" rounded="sm">
       <b-card class="center_card">
-        <b-row align-h="between" align-v="center" class="mx-1 my-2">
-          <b-form-select v-model="videoSelected" style="width: 150px">
+        <div class="input_video">
+          <b-form-select
+            v-model="videoSelected"
+            v-on:change="selected"
+            style="width: 150px"
+          >
             <option :value="null" disabled>-- Pilih Camera --</option>
             <option
               v-for="video in videoList"
-              :value="video.videoUrl"
+              :value="video.name"
               :key="video.name"
             >
               {{ video.name }}
             </option>
           </b-form-select>
-          <b-button
-            v-if="videoSelected != null"
-            v-b-tooltip.hover
-            title="Perbesar"
-            variant="link"
-            style="color: grey"
-            v-b-modal="'modal-video-' + videoSelected"
+          <video-player
+            class="video-player vjs-custom-skin"
+            ref="videoPlayer"
+            :playsinline="true"
+            :options="playerOptions"
           >
-            <b-icon icon="arrows-fullscreen" font-scale="1"></b-icon>
-          </b-button>
-
-          <b-modal :id="'modal-video-' + videoSelected" size="xl" hide-footer>
-            <!-- <b-embed
-              type="iframe"
-              :src="videoSelected"
-              allowfullscreen
-              aspect="16by9"
-            /> -->
-            <b-img
-              :src="videoSelected + '?' + Date.now()"
-              fluid-grow
-              v-if="renderComponent"
-              alt=""
-            ></b-img>
-          </b-modal>
-        </b-row>
-        <!-- <b-embed
-          type="iframe"
-          :src="videoSelected"
-          allowfullscreen
-          aspect="16by9"
-        ></b-embed> -->
-        <b-img
-          :src="videoSelected + '?' + Date.now()"
-          fluid-grow
-          v-if="renderComponent"
-          alt=""
-        ></b-img>
+          </video-player>
+        </div>
       </b-card>
     </b-overlay>
   </div>
@@ -65,9 +39,30 @@ export default {
   data() {
     return {
       auto: 5000,
-      renderComponent: true,
+      loadingTableList : false,
       videoSelected: null,
       videoList: [],
+      playerOptions: {
+        // autoplay: false,
+        muted: true,
+        loop: false,
+        preload: "auto",
+        aspectRatio: "16:9",
+        fluid: true,
+        sources: [
+          {
+            type: "application/x-mpegURL",
+            src: "/index.m3u8",
+          },
+        ],
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false,
+          remainingTimeDisplay: false,
+          fullsreenToggle: true,
+        },
+      },
+      activeNames: ["1"],
     };
   },
 
@@ -78,7 +73,18 @@ export default {
   methods: {
     async onInit() {
       await this.getCameraCameraList();
-      this.ForcesUpdateComponent();
+      // this.ForcesUpdateComponent();
+    },
+
+    selected() {
+      this.playerOptions.sources[0].src =
+        "http://localhost/videos/" + this.videoSelected + "/index.m3u8";
+
+      CameraService.getCameraStreaming(
+        this.baseApi,
+        `?name=` + this.videoSelected,
+        this.jwtToken
+      );
     },
 
     async getCameraCameraList() {
@@ -114,19 +120,26 @@ export default {
         });
     },
 
-    ForcesUpdateComponent() {
-      this.renderComponent = false;
+    // ForcesUpdateComponent() {
+    //   this.renderComponent = false;
 
-      setTimeout(() => this.ForcesUpdateComponent(), this.auto);
-      this.$nextTick(() => {
-        this.renderComponent = true;
-      });
-    },
+    //   setTimeout(() => this.ForcesUpdateComponent(), this.auto);
+    //   this.$nextTick(() => {
+    //     this.renderComponent = true;
+    //   });
+    // },
   },
 };
 </script>
 
 <style scoped>
+.input_video {
+  width: 600px;
+  height: auto;
+  margin: 0 auto;
+  margin-left: 20px;
+  margin-top: 20px;
+}
 .center_card {
   margin: 0 auto;
   float: none;
