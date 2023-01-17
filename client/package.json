@@ -15,14 +15,15 @@
     "axios": "^1.2.1",
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.6.5",
+    "videojs-contrib-hls": "^5.15.0",
     "vue": "^2.6.11",
+    "vue-fullscreen": "^2.6.1",
     "vue-router": "^3.2.0",
     "vue-select": "^3.20.0",
     "vue-session": "^1.0.0",
     "vue-sidebar-menu": "^4.8.1",
     "vue-sweetalert2": "^5.0.5",
-    "vue-video-player": "^5.0.2",
-    "videojs-contrib-hls": "^5.15.0"
+    "vue-video-player": "^5.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.13",

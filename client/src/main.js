@@ -17,6 +17,7 @@ import VideoPlayer from "vue-video-player";
 import "video.js/dist/video-js.css";
 import "vue-video-player/src/custom-theme.css";
 import "videojs-contrib-hls";
+import VueFullscreen from "vue-fullscreen";
 
 Vue.mixin({
   data: function () {
@@ -69,6 +70,7 @@ Vue.mixin({
 });
 
 Vue.config.productionTip = false;
+Vue.use(VueFullscreen);
 Vue.use(VideoPlayer);
 Vue.use(VueSession);
 Vue.use(BootstrapVue);
