@@ -1,7 +1,7 @@
 <template>
   <div>
     <Sidebar />
-    <Header :title="'Live Streaming'" />
+    <!-- <Header :title="'Live Streaming'" /> -->
     <div style="margin-left: 50px">
       <b-col style="text-align: start">
         <b-row class="p-3">
@@ -18,6 +18,9 @@
           </v-select> -->
 
           <b-button-group size="sm">
+            <b-button variant="outline-secondary" @click="setSelected(1)">
+              <b-icon icon="box" />
+            </b-button>
             <b-button variant="outline-secondary" @click="setSelected(2)">
               <b-icon icon="bounding-box" />
             </b-button>
@@ -27,18 +30,18 @@
             <b-button variant="outline-secondary" @click="setSelected(6)">
               <b-icon icon="grid3x2" />
             </b-button>
-            <b-button variant="outline-secondary" @click="setSelected(8)">
+            <b-button variant="outline-secondary" @click="setSelected(9)">
               <b-icon icon="grid3x3" />
             </b-button>
           </b-button-group>
         </b-row>
         <div>
-          <b-row class="remove-padding-margin">
+          <b-row>
             <b-col
               v-for="(gate, index) in optionsSelected"
               :key="index"
               :md="mdSelected"
-              class="mb-3"
+              class="remove-padding-margin"
             >
               <Video />
             </b-col>
@@ -51,12 +54,12 @@
 
 <script>
 import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import Video from "../components/Video";
 
 export default {
   name: "Camera",
-  components: { Sidebar, Header, Video },
+  components: { Sidebar, Video },
   data() {
     return {
       options: [
@@ -98,14 +101,16 @@ export default {
     setSelected(selected) {
       if (selected != null) {
         this.optionsSelected = selected;
-        if (this.optionsSelected == 2) {
+        if (this.optionsSelected == 1) {
+          this.mdSelected = 6;
+        } else if (this.optionsSelected == 2) {
           this.mdSelected = 6;
         } else if (this.optionsSelected == 4) {
-          this.mdSelected = 5;
+          this.mdSelected = 6;
         } else if (this.optionsSelected == 6) {
           this.mdSelected = 4;
-        } else if (this.optionsSelected == 8) {
-          this.mdSelected = 3;
+        } else if (this.optionsSelected == 9) {
+          this.mdSelected = 4;
         }
       }
     },
@@ -113,6 +118,4 @@ export default {
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>
