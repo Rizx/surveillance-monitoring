@@ -71,7 +71,7 @@ namespace API.Controllers
             {
                 var entity = await _cameraRepository.Get(camera);
                 FfmpegService.Start(entity.Name, entity.Parameters, entity.VideoUrl, filePath);
-                System.Threading.Thread.Sleep(3000);
+                System.Threading.Thread.Sleep(5000);
             }
 
             try
