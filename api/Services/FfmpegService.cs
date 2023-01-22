@@ -12,14 +12,14 @@ namespace API.Services
 {
     public static class FfmpegService
     {
-        private static readonly Dictionary<string, int> processActive = new ();
-
         public static bool Start(string camera, string parameters, string urlSource, string filePath)
         {
             try
             {
                 var command = string.Format(parameters, urlSource, filePath);
-                if (processActive.TryGetValue(camera, out int processid))
+                Options.FromFile();
+                Options.Instance.Manager ??= new();
+                if (Options.Instance.Manager.TryGetValue(camera, out int processid))
                 {
                     try
                     {
@@ -31,15 +31,17 @@ namespace API.Services
                         }
                     }
                     catch { }
-                    processActive.Remove(camera);
+                    Options.Instance.Manager.Remove(camera);
                 }
 
                 var process = Process.Start("ffmpeg.exe", command);
-                processActive.Add(camera, process.Id);
+                Options.Instance.Manager.Add(camera, process.Id);
+                Options.ToFile();
                 return true;
             }
             catch
             {
+                Options.ToFile();
                 return false;
             }
         }
