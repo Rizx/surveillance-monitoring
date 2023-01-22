@@ -26,10 +26,6 @@
   margin-right: 0px !important;
   }
 
-/* .decrease-padding-margin {
-  margin-left: -15px !important;
-  margin-right: -15px !important;
-} */
 
 .p-remove-margin-bottom {
   margin-bottom: 0px;
@@ -46,3 +42,10 @@ button.slick-next:before {
   padding: 5px;
 }
 
+.video-player .vjs-tech {
+  pointer-events: none !important;
+}
+
+.video-js .vjs-control-bar .vjs-play-control{
+  display: none;
+}
