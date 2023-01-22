@@ -19,6 +19,13 @@
           :perPage="perPage"
           :totalRows="totalRows"
         />
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          aria-controls="table"
+          align="right"
+        ></b-pagination>
       </b-container>
     </div>
   </div>
