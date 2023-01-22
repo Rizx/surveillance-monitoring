@@ -1,21 +1,11 @@
 <template>
   <div>
     <Sidebar />
-    <!-- <Header :title="'Live Streaming'" /> -->
+    <Header :title="'Live Streaming'" />
     <div style="margin-left: 50px">
       <b-col style="text-align: start">
         <b-row class="p-3">
           <h5 class="pr-3">Layout :</h5>
-          <!-- <v-select
-            :options="options"
-            label="title"
-            v-model="optionsSelected"
-            @input="setSelected"
-          >
-            <template v-slot:option="option">
-              <b-icon :icon="option.icon"></b-icon>
-            </template>
-          </v-select> -->
 
           <b-button-group size="sm">
             <b-button variant="outline-secondary" @click="setSelected(1)">
@@ -33,20 +23,29 @@
             <b-button variant="outline-secondary" @click="setSelected(9)">
               <b-icon icon="grid3x3" />
             </b-button>
-            <b-button variant="outline-secondary" @click="toggle">
-              {{ fullscreen ? "exit fullscreen" : "request fullscreen" }}
+            <b-button variant="outline-secondary" @click="setSelected(-1)">
+              <b-icon icon="ui-checks-grid" />
+            </b-button>
+            <b-button variant="outline-secondary" @click="toggle()">
+              <b-icon icon="fullscreen" />
             </b-button>
           </b-button-group>
         </b-row>
         <b-row class="fullscreen-wrapper">
-          <b-col
+          <Video
             v-for="(gate, index) in optionsSelected"
             :key="index"
+            :index="index"
             :md="mdSelected"
-            class="remove-padding-margin"
-          >
-            <Video />
-          </b-col>
+            v-show="live"
+          />
+          <VideoSetup
+            v-for="(gate, index) in optionsSelected"
+            :key="setup + index"
+            :index="index"
+            :md="mdSelected"
+            v-show="!live"
+          />
         </b-row>
       </b-col>
     </div>
@@ -54,19 +53,21 @@
 </template>
 
 <script>
+import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-// import Header from "../components/Header";
 import Video from "../components/Video";
+import VideoSetup from "../components/VideoSetup.vue";
 import { api as fullscreen } from "vue-fullscreen";
 
 export default {
   name: "Camera",
-  components: { Sidebar, Video },
+  components: { Sidebar, Header, Video, VideoSetup },
   data() {
     return {
+      live: true,
       fullscreen: false,
-      optionsSelected: null,
-      mdSelected: null,
+      optionsSelected: 1,
+      mdSelected: 6,
     };
   },
   mounted() {
@@ -88,6 +89,7 @@ export default {
 
     async onInit() {
       await this.checkLogin();
+      this.live = true;
       this.optionsSelected = 1;
       this.mdSelected = 6;
     },
@@ -97,13 +99,22 @@ export default {
         this.optionsSelected = selected;
         if (this.optionsSelected == 1) {
           this.mdSelected = 6;
+          this.live = true;
         } else if (this.optionsSelected == 2) {
           this.mdSelected = 6;
+          this.live = true;
         } else if (this.optionsSelected == 4) {
           this.mdSelected = 6;
+          this.live = true;
         } else if (this.optionsSelected == 6) {
           this.mdSelected = 4;
+          this.live = true;
         } else if (this.optionsSelected == 9) {
+          this.mdSelected = 4;
+          this.live = true;
+        } else if (this.optionsSelected == -1) {
+          this.live = false;
+          this.optionsSelected = 9;
           this.mdSelected = 4;
         }
       }
