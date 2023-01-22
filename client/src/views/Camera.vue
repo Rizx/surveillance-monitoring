@@ -41,7 +41,7 @@
           />
           <VideoSetup
             v-for="(gate, index) in optionsSelected"
-            :key="setup + index"
+            :key="'A'+index"
             :index="index"
             :md="mdSelected"
             v-show="!live"
