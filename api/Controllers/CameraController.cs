@@ -49,17 +49,49 @@ namespace API.Controllers
             return Ok(Result.Ok(videos));
         }
 
-        [HttpGet("streaming")]
-        public async Task<IActionResult> GetStreaming([FromQuery] string name)
+        // [HttpGet("streaming")]
+        // public async Task<IActionResult> GetStreaming([FromQuery] string name)
+        // {
+        //     var camera = await _cameraRepository.Get(name);
+        //     var filename = "/videos/" + camera.Name + "/index.m3u8";
+        //     // var command = $"ffmpeg -rtsp_transport tcp -i {camera.VideoUrl} -an -c:v libx264 -crf 21 -preset veryfast -fflags nobuffer -flags low_delay -t 20 -f hls -hls_time 1 -hls_list_size 3 -hls_flags delete_segments {filename}";
+        //     var command = $"ffmpeg -rtsp_transport tcp -i '{camera.VideoUrl}' -an -c:v libx264 -crf 21 -preset veryfast -fflags nobuffer -flags low_delay -t 60 -f hls -hls_time 1 -hls_list_size 3 -hls_flags delete_segments {filename}";
+        //     var result = FfmpegService.Start(camera.Name, command);
+        //     if(result)
+        //         return Ok(filename);
+        //     return StatusCode(500);
+        // }
+
+        [HttpGet("{camera}/index.m3u8")]
+        public async Task<IActionResult> GetStreamingAsync(string camera)
         {
-            var camera = await _cameraRepository.Get(name);
-            var filename = "/videos/" + camera.Name + "/index.m3u8";
-            // var command = $"ffmpeg -rtsp_transport tcp -i {camera.VideoUrl} -an -c:v libx264 -crf 21 -preset veryfast -fflags nobuffer -flags low_delay -t 20 -f hls -hls_time 1 -hls_list_size 3 -hls_flags delete_segments {filename}";
-            var command = $"ffmpeg -rtsp_transport tcp -i '{camera.VideoUrl}' -an -c:v libx264 -crf 21 -preset veryfast -fflags nobuffer -flags low_delay -t 60 -f hls -hls_time 1 -hls_list_size 3 -hls_flags delete_segments {filename}";
-            var result = FfmpegService.Start(camera.Name, command);
-            if(result)
-                return Ok(filename);
-            return StatusCode(500);
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            var filePath = $"/videos/{camera}/index.m3u8";
+            if (!System.IO.File.Exists(filePath) || System.IO.File.GetLastWriteTime(filePath).AddSeconds(5) < DateTime.Now)
+            {
+                var entity = await _cameraRepository.Get(camera);
+                FfmpegService.Start(entity.Name, entity.Parameters, entity.VideoUrl, filePath);
+                System.Threading.Thread.Sleep(3000);
+            }
+
+            try
+            {
+                return File(System.IO.File.OpenRead(filePath), "application/octet-stream", enableRangeProcessing: true);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("{camera}/{fileName}")]
+        public IActionResult GetFile(string camera, string fileName)
+        {
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            var filePath = $"/videos/{camera}/{fileName}";
+            if (System.IO.File.Exists(filePath))
+                return File(System.IO.File.OpenRead($"/Videos/{camera}/{fileName}"), "application/octet-stream", enableRangeProcessing: true);
+            return BadRequest();
         }
 
         // [HttpGet("streaming")]
