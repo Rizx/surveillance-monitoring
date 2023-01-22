@@ -61,7 +61,7 @@ export default {
 
       const user_role = String(this.$session.get("USER_ROLE"));
       this.menuItems = this.menuItems.filter(function (el) {
-        return user_role.includes(el.role);
+        return el.role.includes(user_role);
       });
     },
   },
